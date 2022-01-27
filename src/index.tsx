@@ -9,11 +9,11 @@ const routerPush = async (href: string) => {
   let nextRouter;
 
   try {
-    // @ts-ignore
-    nextRouter = await import('next/router');
-    // @ts-ignore
+    nextRouter = (await import('next/router')).default;
+
     return nextRouter.push(href, undefined, { shallow: true });
   } catch {}
+
   return window.history.pushState({ path: href }, '', href);
 };
 
@@ -26,12 +26,12 @@ const createURL = (urlParams: {}) => {
 };
 
 export const encodeUrlParams = (obj: {}): string =>
-  btoa(encodeURI(JSON.stringify(obj)));
+  window.btoa(encodeURI(JSON.stringify(obj)));
 
 export const decodedUrlParams = (): {} => {
   const params = new URLSearchParams(window.location.search).get(PARAMS_KEY);
   if (params) {
-    return JSON.parse(decodeURI(atob(params)));
+    return JSON.parse(decodeURI(window.atob(params)));
   }
   return {};
 };
@@ -39,7 +39,6 @@ export const decodedUrlParams = (): {} => {
 export const openModal = ({
   name,
   params,
-
   ...props
 }: {
   name: string;
@@ -66,6 +65,7 @@ export const closeModal = () => {
   urlParams.delete(MODAL_KEY);
 
   routerPush(createURL(urlParams));
+  console.log(window.location.search)
   window.dispatchEvent(new Event('modal-trigger'));
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
@@ -80,7 +80,11 @@ export const isModalOpen = (name: string): boolean => {
 export const ModalWrapper = ({
   modals,
 }: {
-  modals: { [name: string]: React.ElementType | Promise<React.ElementType> };
+  modals: {
+    [name: string]:
+      | React.ElementType
+      | React.LazyExoticComponent<() => JSX.Element>;
+  };
 }): React.ReactNode => {
   const [show, setShow] = useState(false);
   const [extraProps, setExtraProps] = useState({});
@@ -88,8 +92,11 @@ export const ModalWrapper = ({
 
   const listener = useCallback(
     (event?: any) => {
+      console.log(window.history.state)
       const urlParams = new URLSearchParams(window.location.search);
       const modalQuery = urlParams.get(MODAL_KEY);
+
+      console.log(window.location.search)
 
       if (!modalQuery) {
         setShow(false);
@@ -128,12 +135,14 @@ export const ModalWrapper = ({
 
   const Component = modalName ? modals[modalName] : null;
 
+
+  console.log(modalName, modals, show, Component)
+
   if (!show || !Component) return null;
 
   return (
     <Modal visible={show} onCancel={onClose} onDismiss={onClose}>
       <Suspense fallback={false}>
-        {/* @ts-ignore */}
         <Component
           onCancel={onClose}
           open={show}
