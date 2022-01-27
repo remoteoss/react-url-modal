@@ -1,21 +1,11 @@
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import useCustomEvent from './hooks/useCustomEvent';
-import { Modal } from './Modal';
 
 export const PARAMS_KEY = 'params';
 export const MODAL_KEY = 'modal';
 
-const routerPush = async (href: string) => {
-  let nextRouter;
-
-  try {
-    nextRouter = (await import('next/router')).default;
-
-    return nextRouter.push(href, undefined, { shallow: true });
-  } catch {}
-
-  return window.history.pushState({ path: href }, '', href);
-};
+const routerPush = async (href: string) =>
+  window.history.pushState({ path: href }, '', href);
 
 const createURL = (urlParams: {}) => {
   const {
@@ -78,12 +68,14 @@ export const isModalOpen = (name: string): boolean => {
 
 export const ModalWrapper = ({
   modals,
+  Wrapper,
 }: {
   modals: {
     [name: string]:
       | React.ElementType
       | React.LazyExoticComponent<() => JSX.Element>;
   };
+  Wrapper: React.ElementType;
 }): React.ReactNode => {
   const [show, setShow] = useState(false);
   const [extraProps, setExtraProps] = useState({});
@@ -132,18 +124,29 @@ export const ModalWrapper = ({
   const Component = modalName ? modals[modalName] : null;
 
   if (!show || !Component) return null;
-
+  const WrapperEl = Wrapper ? Wrapper : React.Fragment;
+  const wrapperProps = Wrapper
+    ? {
+        visible: show,
+        onCancel: onClose,
+        onDismiss: onClose,
+      }
+    : {};
   return (
-    <Modal visible={show} onCancel={onClose} onDismiss={onClose}>
-      <Suspense fallback={false}>
-        <Component
-          onCancel={onClose}
-          open={show}
-          onSubmit={onSubmit}
-          params={getData()}
-          {...extraProps}
-        />
-      </Suspense>
-    </Modal>
+    <>
+      <WrapperEl {...wrapperProps}>
+        <Suspense fallback={false}>
+          <Component
+            onCancel={onClose}
+            open={show}
+            onSubmit={onSubmit}
+            params={getData()}
+            {...extraProps}
+          />
+        </Suspense>
+      </WrapperEl>
+    </>
   );
 };
+
+export { Modal } from './Modal';

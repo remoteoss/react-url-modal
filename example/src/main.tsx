@@ -47,7 +47,15 @@ const modals = {
 
 ReactDOM.render(
   <>
-    <ModalWrapper modals={modals} />
+    <ModalWrapper
+      modals={modals}
+      Wrapper={({ onCancel, children }) => (
+        <>
+          {children}
+          <button onClick={onCancel}>Close</button>
+        </>
+      )}
+    />
     <App />
   </>,
   document.getElementById('root')
