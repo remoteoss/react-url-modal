@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 export default function useCustomEvent(
   eventName: string,
-  listener: () => void
+  listener: EventListenerOrEventListenerObject
 ) {
   useEffect(() => {
     window.addEventListener(eventName, listener);

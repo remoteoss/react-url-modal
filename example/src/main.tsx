@@ -1,6 +1,8 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { ModalWrapper, openModal } from '../../';
+import Modal1 from './Modal1';
+import Modal2 from './Modal2';
 
 const App = () => {
   return (
@@ -19,7 +21,7 @@ const App = () => {
           openModal({
             name: 'thing2',
             params: {
-              hello: 'world',
+              stuff: 'hello world',
             },
           })
         }
@@ -40,8 +42,8 @@ const App = () => {
 };
 
 const modals = {
-  thing: () => 'sup',
-  thing2: ({ params }) => JSON.stringify(params),
+  thing: Modal1,
+  thing2: Modal2,
   thing3: React.lazy(() => import('./Modal3')),
 };
 
