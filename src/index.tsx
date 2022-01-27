@@ -42,7 +42,15 @@ export const openModal = ({
   }
 
   routerPush(createURL(urlParams));
-  const event = new CustomEvent('modal-trigger', { detail: props });
+  const event = new CustomEvent('modal-trigger', {
+    detail: {
+      modalName: name,
+      props: {
+        params,
+        ...props,
+      },
+    },
+  });
   window.dispatchEvent(event);
 };
 
@@ -55,6 +63,7 @@ export const closeModal = () => {
   urlParams.delete(MODAL_KEY);
 
   routerPush(createURL(urlParams));
+
   window.dispatchEvent(new Event('modal-trigger'));
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
@@ -66,44 +75,62 @@ export const isModalOpen = (name: string): boolean => {
   return modalName === name;
 };
 
-export const ModalWrapper = ({
-  modals,
-  Wrapper,
-}: {
+export type ModalChildren =
+  | ((...args: any) => JSX.Element)
+  | React.LazyExoticComponent<(...args: any) => JSX.Element>;
+
+export interface ModalWrapperProps {
   modals: {
-    [name: string]:
-      | React.ElementType
-      | React.LazyExoticComponent<() => JSX.Element>;
+    [name: string]: ModalChildren;
   };
   Wrapper: React.ElementType;
-}): React.ReactNode => {
-  const [show, setShow] = useState(false);
+}
+
+export function ModalWrapper({ modals, Wrapper }: ModalWrapperProps) {
   const [extraProps, setExtraProps] = useState({});
   const urlParams = new URLSearchParams(window.location.search);
+  const [modalName, setModalName] = useState<string | null>(
+    urlParams.get(MODAL_KEY)
+  );
 
-  const listener = useCallback(
+  const popStateListener = useCallback(
     (event?: any) => {
       const urlParams = new URLSearchParams(window.location.search);
       const modalQuery = urlParams.get(MODAL_KEY);
 
       if (!modalQuery) {
-        setShow(false);
+        setModalName(null);
         setExtraProps({});
       }
       if (modalQuery && modals[modalQuery]) {
-        setShow(true);
-        if (event?.detail) setExtraProps(event.detail);
+        setModalName(modalQuery);
+        if (event?.detail) setExtraProps(event.detail.props);
       }
     },
     [modals]
   );
-  useCustomEvent('modal-trigger', listener);
-  useCustomEvent('popstate', listener);
+  const modalTriggerListener = useCallback(
+    (event: any) => {
+      const { modalName, props } = event.detail || {};
+
+      if (!modalName) {
+        setModalName(null);
+        setExtraProps({});
+      }
+      if (modalName && modals[modalName]) {
+        setExtraProps(props);
+        setModalName(modalName);
+      }
+    },
+    [modals]
+  );
+  useCustomEvent('modal-trigger', modalTriggerListener);
+  useCustomEvent('popstate', popStateListener);
 
   useEffect(() => {
     // load modal if a modal is on the url at load
-    listener();
-  }, [listener]);
+    popStateListener();
+  }, [popStateListener]);
 
   if (typeof window === 'undefined') return null;
 
@@ -116,37 +143,34 @@ export const ModalWrapper = ({
       return null;
     }
   };
-  const modalName = urlParams.get(MODAL_KEY);
+
   const onSubmit = () => window.dispatchEvent(new Event(`${modalName}-submit`));
 
   const onClose = () => closeModal();
 
   const Component = modalName ? modals[modalName] : null;
 
-  if (!show || !Component) return null;
+  if (!Component) return null;
+
   const WrapperEl = Wrapper ? Wrapper : React.Fragment;
   const wrapperProps = Wrapper
     ? {
-        visible: show,
+        visible: !!Component,
         onCancel: onClose,
         onDismiss: onClose,
       }
     : {};
-  return (
-    <>
-      <WrapperEl {...wrapperProps}>
-        <Suspense fallback={false}>
-          <Component
-            onCancel={onClose}
-            open={show}
-            onSubmit={onSubmit}
-            params={getData()}
-            {...extraProps}
-          />
-        </Suspense>
-      </WrapperEl>
-    </>
-  );
-};
 
-export { Modal } from './Modal';
+  return (
+    <WrapperEl {...wrapperProps}>
+      <Suspense fallback={false}>
+        <Component
+          onCancel={onClose}
+          onSubmit={onSubmit}
+          params={getData()}
+          {...extraProps}
+        />
+      </Suspense>
+    </WrapperEl>
+  );
+}
