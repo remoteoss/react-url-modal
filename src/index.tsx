@@ -65,7 +65,6 @@ export const closeModal = () => {
   urlParams.delete(MODAL_KEY);
 
   routerPush(createURL(urlParams));
-  console.log(window.location.search)
   window.dispatchEvent(new Event('modal-trigger'));
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
@@ -92,11 +91,8 @@ export const ModalWrapper = ({
 
   const listener = useCallback(
     (event?: any) => {
-      console.log(window.history.state)
       const urlParams = new URLSearchParams(window.location.search);
       const modalQuery = urlParams.get(MODAL_KEY);
-
-      console.log(window.location.search)
 
       if (!modalQuery) {
         setShow(false);
@@ -134,9 +130,6 @@ export const ModalWrapper = ({
   const onClose = () => closeModal();
 
   const Component = modalName ? modals[modalName] : null;
-
-
-  console.log(modalName, modals, show, Component)
 
   if (!show || !Component) return null;
 
