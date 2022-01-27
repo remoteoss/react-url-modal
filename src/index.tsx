@@ -4,17 +4,8 @@ import useCustomEvent from './hooks/useCustomEvent';
 export const PARAMS_KEY = 'params';
 export const MODAL_KEY = 'modal';
 
-const routerPush = async (href: string) => {
-  let nextRouter;
-
-  try {
-    // @ts-ignore
-    nextRouter = await import('next/router');
-    // @ts-ignore
-    return nextRouter.push(href, undefined, { shallow: true });
-  } catch {}
-  return window.history.pushState({ path: href }, '', href);
-};
+const routerPush = async (href: string) =>
+  window.history.pushState({ path: href }, '', href);
 
 const createURL = (urlParams: {}) => {
   const {
@@ -25,12 +16,12 @@ const createURL = (urlParams: {}) => {
 };
 
 export const encodeUrlParams = (obj: {}): string =>
-  btoa(encodeURI(JSON.stringify(obj)));
+  window.btoa(encodeURI(JSON.stringify(obj)));
 
 export const decodedUrlParams = (): {} => {
   const params = new URLSearchParams(window.location.search).get(PARAMS_KEY);
   if (params) {
-    return JSON.parse(decodeURI(atob(params)));
+    return JSON.parse(decodeURI(window.atob(params)));
   }
   return {};
 };
@@ -79,7 +70,11 @@ export const ModalWrapper = ({
   modals,
   Wrapper,
 }: {
-  modals: { [name: string]: React.ElementType | Promise<React.ElementType> };
+  modals: {
+    [name: string]:
+      | React.ElementType
+      | React.LazyExoticComponent<() => JSX.Element>;
+  };
   Wrapper: React.ElementType;
 }): React.ReactNode => {
   const [show, setShow] = useState(false);
@@ -141,7 +136,6 @@ export const ModalWrapper = ({
     <>
       <WrapperEl {...wrapperProps}>
         <Suspense fallback={false}>
-          {/* @ts-ignore */}
           <Component
             onCancel={onClose}
             open={show}
