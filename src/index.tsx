@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import useCustomEvent from './hooks/useCustomEvent';
-import { Modal } from './Modal';
 
 export const PARAMS_KEY = 'params';
 export const MODAL_KEY = 'modal';
@@ -39,7 +38,6 @@ export const decodedUrlParams = (): {} => {
 export const openModal = ({
   name,
   params,
-
   ...props
 }: {
   name: string;
@@ -79,8 +77,10 @@ export const isModalOpen = (name: string): boolean => {
 
 export const ModalWrapper = ({
   modals,
+  Wrapper,
 }: {
   modals: { [name: string]: React.ElementType | Promise<React.ElementType> };
+  Wrapper: React.ElementType;
 }): React.ReactNode => {
   const [show, setShow] = useState(false);
   const [extraProps, setExtraProps] = useState({});
@@ -129,19 +129,30 @@ export const ModalWrapper = ({
   const Component = modalName ? modals[modalName] : null;
 
   if (!show || !Component) return null;
-
+  const WrapperEl = Wrapper ? Wrapper : React.Fragment;
+  const wrapperProps = Wrapper
+    ? {
+        visible: show,
+        onCancel: onClose,
+        onDismiss: onClose,
+      }
+    : {};
   return (
-    <Modal visible={show} onCancel={onClose} onDismiss={onClose}>
-      <Suspense fallback={false}>
-        {/* @ts-ignore */}
-        <Component
-          onCancel={onClose}
-          open={show}
-          onSubmit={onSubmit}
-          params={getData()}
-          {...extraProps}
-        />
-      </Suspense>
-    </Modal>
+    <>
+      <WrapperEl {...wrapperProps}>
+        <Suspense fallback={false}>
+          {/* @ts-ignore */}
+          <Component
+            onCancel={onClose}
+            open={show}
+            onSubmit={onSubmit}
+            params={getData()}
+            {...extraProps}
+          />
+        </Suspense>
+      </WrapperEl>
+    </>
   );
 };
+
+export { Modal } from './Modal';
