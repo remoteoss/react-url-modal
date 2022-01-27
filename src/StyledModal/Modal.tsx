@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CloseIcon } from './icons/Close';
+import { CloseIcon } from '../icons/Close';
 import {
   Body,
   ButtonCloseStyled,
