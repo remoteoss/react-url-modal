@@ -4,17 +4,8 @@ import useCustomEvent from './hooks/useCustomEvent';
 export const PARAMS_KEY = 'params';
 export const MODAL_KEY = 'modal';
 
-const routerPush = async (href: string) => {
-  let nextRouter;
-
-  try {
-    nextRouter = (await import('next/router')).default;
-
-    return nextRouter.push(href, undefined, { shallow: true });
-  } catch {}
-
-  return window.history.pushState({ path: href }, '', href);
-};
+const routerPush = async (href: string) =>
+  window.history.pushState({ path: href }, '', href);
 
 const createURL = (urlParams: {}) => {
   const {
@@ -85,8 +76,7 @@ export const isModalOpen = (name: string): boolean => {
 };
 
 export type ModalChildren =
-  | any
-  | React.Component<(...args: any) => JSX.Element>
+  | ((...args: any) => JSX.Element)
   | React.LazyExoticComponent<(...args: any) => JSX.Element>;
 
 export interface ModalWrapperProps {
