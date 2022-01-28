@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ModalWrapper, openModal } from '../../';
+import { URLModal, openModal } from '../../';
 import Modal1 from './Modal1';
 import Modal2 from './Modal2';
 
@@ -49,9 +49,15 @@ const modals = {
 
 ReactDOM.render(
   <>
-    <ModalWrapper
+    <URLModal
       modals={modals}
-      Wrapper={({ onCancel, children }) => (
+      Wrapper={({
+        onCancel,
+        children,
+      }: {
+        onCancel: () => void;
+        children: React.ElementType;
+      }) => (
         <>
           {children}
           <button onClick={onCancel}>Close</button>
