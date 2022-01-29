@@ -9,6 +9,7 @@ const App = () => {
   return (
     <div>
       <button
+        type="button"
         onClick={() =>
           openModal({
             name: 'thing',
@@ -18,6 +19,7 @@ const App = () => {
         Standard Modal
       </button>
       <button
+        type="button"
         onClick={() =>
           openModal({
             name: 'thing2',
@@ -30,6 +32,7 @@ const App = () => {
         Passing props
       </button>
       <button
+        type="button"
         onClick={() =>
           openModal({
             name: 'thing3',
@@ -61,7 +64,9 @@ ReactDOM.render(
       }) => (
         <>
           {children}
-          <button onClick={onCancel}>Close</button>
+          <button onClick={onCancel} type="button">
+            Close
+          </button>
         </>
       )}
     />

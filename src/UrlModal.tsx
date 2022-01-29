@@ -1,7 +1,14 @@
-import React, { useState, useEffect, Suspense, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  Suspense,
+  useCallback,
+  Fragment,
+} from 'react';
+import type { ElementType, LazyExoticComponent } from 'react';
 import { MODAL_KEY, PARAMS_KEY } from './constants';
 import { createURL, decodedUrlParams, encodeUrlParams } from './helpers';
-import useCustomEvent from './hooks/useCustomEvent';
+import { useCustomEvent } from './hooks/useCustomEvent';
 
 const routerPush = (href: string) =>
   window.history.pushState({ path: href }, '', href);
@@ -24,8 +31,7 @@ export const openModal = ({
   ...props
 }: {
   name: string;
-
-  params?: {};
+  params?: Record<string, unknown>;
 }) => {
   routerReplace(cleanSearchParams());
   const urlParams = new URLSearchParams(window.location.search);
@@ -57,15 +63,16 @@ export const closeModal = () => {
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
 
-export type ModalChildren =
-  | ((...args: any) => JSX.Element)
-  | React.LazyExoticComponent<(...args: any) => JSX.Element>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ComponentType = (...args: any) => JSX.Element;
+
+export type ModalChildren = ComponentType | LazyExoticComponent<ComponentType>;
 
 export interface ModalWrapperProps {
   modals: {
     [name: string]: ModalChildren;
   };
-  Wrapper: React.ElementType;
+  Wrapper: ElementType;
 }
 
 export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
@@ -75,30 +82,28 @@ export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
     urlParams.get(MODAL_KEY)
   );
 
-  const popStateListener = useCallback(
-    (event?: any) => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const modalQuery = urlParams.get(MODAL_KEY);
+  const popStateListener = useCallback(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalQuery = urlParams.get(MODAL_KEY);
 
-      if (!modalQuery) {
-        setModalName(null);
-        setExtraProps({});
-      }
-      if (modalQuery && modals[modalQuery]) {
-        setModalName(modalQuery);
-        if (event?.detail) setExtraProps(event.detail.props);
-      }
-    },
-    [modals]
-  );
+    if (!modalQuery) {
+      setModalName(null);
+      setExtraProps({});
+    }
+
+    if (modalQuery && modals[modalQuery]) {
+      setModalName(modalQuery);
+    }
+  }, [modals]);
   const modalTriggerListener = useCallback(
-    (event: any) => {
+    (event: CustomEvent) => {
       const { modalName, props } = event.detail || {};
 
       if (!modalName) {
         setModalName(null);
         setExtraProps({});
       }
+
       if (modalName && modals[modalName]) {
         setExtraProps(props);
         setModalName(modalName);
@@ -116,7 +121,7 @@ export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
 
   if (typeof window === 'undefined') return null;
 
-  const getData = (): {} | null => {
+  const getData = () => {
     const urlData = urlParams.get(PARAMS_KEY);
     if (!urlData) return null;
     try {
@@ -134,7 +139,7 @@ export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
 
   if (!Component) return null;
 
-  const WrapperEl = Wrapper ? Wrapper : React.Fragment;
+  const WrapperEl = Wrapper ? Wrapper : Fragment;
   const wrapperProps = Wrapper
     ? {
         visible: !!Component,
