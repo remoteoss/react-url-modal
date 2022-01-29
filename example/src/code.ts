@@ -1,7 +1,7 @@
 export const standardModalCode = `
 import { URLModal } from "react-url-modal";
 
-const StandardModal = () => <div>No params! Simple stuff</div>;
+const StandardModal = () => <>No params! Simple stuff</>;
 
 export const App = () => (
   <>
@@ -26,7 +26,7 @@ export const App = () => (
 export const withParams = `
 import { URLModal, openModal } from 'react-url-modal';
 
-const ModalWithParams = ({ params }) => <div>{params.stuff}</div>;
+const ModalWithParams = ({ params }) => <>{params.stuff}</>;
 
 export const App = () => (
   <>
@@ -53,7 +53,7 @@ export const App = () => (
 export const withCustomWrapper = `
 import { URLModal, openModal } from 'react-url-modal';
 
-const CustomWrapper = () => <div>I am a modal with a cute close button</div>;
+const CustomWrapper = () => <>I am a modal with a cute close button</>;
 
 export const App = () => (
   <>
@@ -74,6 +74,55 @@ export const App = () => (
       onClick={() =>
         openModal({
           name: 'customWrapper',
+        })
+      }
+    >
+      Open
+    </button>
+  </>
+);
+`;
+
+export const dynamicImportedModal = `
+import { URLModal, openModal } from 'react-url-modal';
+
+export const App = () => (
+  <>
+    <URLModal
+      modals={{
+        dynamicImported: React.lazy(() => import('./DynamicImported')),
+      }}
+    />
+    <button
+      onClick={() =>
+        openModal({
+          name: 'dynamicImported',
+        })
+      }
+    >
+      Open
+    </button>
+  </>
+);
+`;
+
+export const withModal = `
+import { URLModal, openModal, Modal } from 'react-url-modal';
+
+const WithModal = () => <>I use the default Modal</>;
+
+export const App = () => (
+  <>
+    <URLModal
+      Wrapper={Modal}
+      modals={{
+        withModal: WithModal,
+      }}
+    />
+    <button
+      onClick={() =>
+        openModal({
+          name: 'withModal',
         })
       }
     >

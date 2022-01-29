@@ -1,14 +1,22 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import { URLModal, openModal } from '../../';
-import Modal1 from './components/Modals/Modal1';
-import Modal2 from './components/Modals/Modal2';
 import '../../styles/index.css';
 import './style.css';
 import clipboardCopy from 'clipboard-copy';
 import { useState } from 'react';
 import { Code } from './components/Code';
-import { standardModalCode, withCustomWrapper, withParams } from './code';
+import {
+  dynamicImportedModal,
+  standardModalCode,
+  withCustomWrapper,
+  withModal,
+  withParams,
+} from './code';
+import {
+  CustomWrapper,
+  StandardModal,
+  WithModal,
+  WithParams,
+} from './components/Examples';
 
 enum PackageManagers {
   NPM = 'npm',
@@ -30,12 +38,6 @@ const getText = (packageManager: PackageManagers) => {
     case 'yarn':
       return `yarn add ${packageName}`;
   }
-};
-
-const modals = {
-  thing: Modal1,
-  thing2: Modal2,
-  thing3: React.lazy(() => import('./components/Modals/Modal3')),
 };
 
 const App = () => {
@@ -64,7 +66,13 @@ const App = () => {
       name: 'Dynamically imported Modal',
       onClick: () => setTab(3),
       current: tab === 3,
-      code: withParams,
+      code: dynamicImportedModal,
+    },
+    {
+      name: 'Using our Modal Component',
+      onClick: () => setTab(4),
+      current: tab === 4,
+      code: withModal,
     },
   ];
 
@@ -127,7 +135,7 @@ const App = () => {
           </button>
         </div>
       </div>
-      <div className="p-12 bg-slate-900">
+      <div className="p-12 bg-slate-900 max-h-screen overflow-auto">
         <div>
           <div className="hidden sm:block ">
             <nav className="flex" aria-label="Tabs">
@@ -139,11 +147,11 @@ const App = () => {
                     idx === 0 ? 'rounded-l-md' : '',
                     idx === tabs.length - 1 ? 'rounded-r-md' : '',
                     idx !== tabs.length - 1
-                      ? 'border-0 border-r-2 border-r-slate-600'
+                      ? 'border-0 border-r-2 border-r-slate-900'
                       : '',
                     tab.current
                       ? 'bg-indigo-800 text-slate-100'
-                      : 'text-slate-400 hover:text-slate-500 bg-slate-800',
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-indigo-800 bg-slate-800',
                     'px-4 py-3 font-medium text-sm flex-grow'
                   )}
                 >
@@ -154,23 +162,10 @@ const App = () => {
           </div>
         </div>
         <Code code={tabs[tab].code} />
-        <URLModal
-          modals={modals}
-          Wrapper={({
-            onCancel,
-            children,
-          }: {
-            onCancel: () => void;
-            children: React.ElementType;
-          }) => (
-            <>
-              {children}
-              <button onClick={onCancel} type="button">
-                Close
-              </button>
-            </>
-          )}
-        />
+        {tab === 0 && <StandardModal />}
+        {tab === 1 && <WithParams />}
+        {tab === 2 && <CustomWrapper />}
+        {tab === 4 && <WithModal />}
       </div>
     </div>
   );

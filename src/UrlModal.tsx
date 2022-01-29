@@ -72,7 +72,7 @@ export interface ModalWrapperProps {
   modals: {
     [name: string]: ModalChildren;
   };
-  Wrapper: ElementType;
+  Wrapper?: ElementType;
 }
 
 export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
