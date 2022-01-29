@@ -1,15 +1,22 @@
-import { createURL, decodedUrlParams, encodeUrlParams, isModalOpen } from '../helpers';
+import {
+  createURL,
+  decodedUrlParams,
+  encodeUrlParams,
+  isModalOpen,
+} from '../helpers';
 const realLocation = window.location;
 
 const createFakeWindowLocation = (search: { [key: string]: string }) => {
   global.window = Object.create(window);
+
   Object.defineProperty(window, 'location', {
     writable: true,
     value: {
-      search: search
+      search: search,
     },
   });
-}
+};
+
 describe('test createURL', () => {
   it('should append one search param', () => {
     expect(
@@ -20,6 +27,7 @@ describe('test createURL', () => {
       )
     ).toBe('http://localhost/?search=test');
   });
+
   it('should append several search params', () => {
     expect(
       createURL(
@@ -46,6 +54,7 @@ describe('test encodeUrlParams', () => {
       )
     ).toBe('JTdCJTdE');
   });
+
   it('should encode objects', () => {
     expect(
       encodeUrlParams({
@@ -60,10 +69,12 @@ describe('test decodedUrlParams', () => {
     createFakeWindowLocation({
       params: 'JTdCJTIyc2VhcmNoJTIyOiUyMnRlc3QlMjIlN0Q',
     });
-  })
+  });
+
   afterEach(() => {
     global.window.location = realLocation;
-  })
+  });
+
   it('should decode when its URLSearchParams', () => {
     expect(decodedUrlParams()).toEqual({ search: 'test' });
   });
@@ -72,17 +83,19 @@ describe('test decodedUrlParams', () => {
 describe('test isModalOpen', () => {
   afterEach(() => {
     global.window.location = realLocation;
-  })
+  });
+
   it('should return true when modal is open', () => {
     createFakeWindowLocation({
       modal: 'ModalName',
     });
     expect(isModalOpen('ModalName')).toBe(true);
   });
+
   it('should return false when modal is not open', () => {
     createFakeWindowLocation({
       modal: 'notTheSameName',
     });
     expect(isModalOpen('AnotherModalName')).toBe(false);
   });
-})
+});

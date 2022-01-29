@@ -1,5 +1,6 @@
+import React from 'react';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
-import * as React from 'react';
+
 import { CloseIcon } from '../icons/Close';
 
 export const Modal = ({
@@ -19,6 +20,7 @@ export const Modal = ({
       >
         <div data-reach-dialog-header>
           <button
+            type="button"
             aria-label="Close Modal"
             onClick={onDismiss ?? onCancel}
             data-reach-dialog-button-close
