@@ -3,8 +3,20 @@ import { MODAL_KEY, PARAMS_KEY } from './constants';
 import { createURL, decodedUrlParams, encodeUrlParams } from './helpers';
 import useCustomEvent from './hooks/useCustomEvent';
 
-const routerPush = async (href: string) =>
+const routerPush = (href: string) =>
   window.history.pushState({ path: href }, '', href);
+
+const routerReplace = (href: string) =>
+  window.history.replaceState({ path: href }, '', href);
+
+const cleanSearchParams = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  if (urlParams.get(PARAMS_KEY)) urlParams.delete(PARAMS_KEY);
+  if (urlParams.get(MODAL_KEY)) urlParams.delete(MODAL_KEY);
+
+  return createURL(urlParams);
+};
 
 export const openModal = ({
   name,
@@ -15,11 +27,11 @@ export const openModal = ({
 
   params?: {};
 }) => {
+  routerReplace(cleanSearchParams());
   const urlParams = new URLSearchParams(window.location.search);
+
   urlParams.set(MODAL_KEY, name);
-  if (params) {
-    urlParams.set(PARAMS_KEY, encodeUrlParams(params));
-  }
+  if (params) urlParams.set(PARAMS_KEY, encodeUrlParams(params));
 
   routerPush(createURL(urlParams));
 
@@ -38,12 +50,8 @@ export const openModal = ({
 export const closeModal = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const modalName = urlParams.get(MODAL_KEY);
-  if (urlParams.get(PARAMS_KEY)) {
-    urlParams.delete(PARAMS_KEY);
-  }
-  urlParams.delete(MODAL_KEY);
 
-  routerPush(createURL(urlParams));
+  routerPush(cleanSearchParams());
 
   window.dispatchEvent(new Event('modal-trigger'));
   window.dispatchEvent(new Event(`${modalName}-close`));
