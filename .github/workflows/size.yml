@@ -1,5 +1,5 @@
 name: size
-on: [push]
+on: [pull_request]
 jobs:
   size:
     runs-on: ubuntu-latest
