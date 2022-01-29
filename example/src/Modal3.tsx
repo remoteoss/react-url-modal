@@ -1,7 +1,5 @@
-import * as React from 'react';
+import { Modal } from '../../';
 
-const Modal3 = () => {
-  return <>'I am loaded from another file'</>;
-};
-
-export default Modal3;
+export default function Modal3(props: any) {
+  return <Modal {...props}>I am loaded from another file</Modal>;
+}

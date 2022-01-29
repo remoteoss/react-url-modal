@@ -1,7 +1,8 @@
-import { DialogOverlay, DialogContent } from '@reach/dialog';
-import styled from 'styled-components';
+:root {
+  --reach-dialog: 1;
+}
 
-export const ModalOverlay = styled(DialogOverlay)`
+[data-reach-dialog-overlay] {
   position: fixed;
   left: 0;
   top: 0;
@@ -11,20 +12,20 @@ export const ModalOverlay = styled(DialogOverlay)`
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 999999;
-`;
+}
 
-export const ModalArea = styled.div`
+[data-reach-dialog-area] {
   position: relative;
   width: auto;
   max-width: 620px;
-  min-height: calc(100% - 100px); /* 100px = 50px * 2 margin */
+  min-height: calc(100% - 100px);
   margin: 50px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+}
 
-export const ModalContent = styled(DialogContent)`
+[data-reach-dialog-content] {
   outline: 0;
   position: relative;
   display: flex;
@@ -35,26 +36,31 @@ export const ModalContent = styled(DialogContent)`
   border-radius: var(--modalRadius);
   /* Do not add overflow:hidden to allow content to go over the edge (eg dropdowns) */
 
-  && {
-    /** override reach-ui */
-    width: 100%;
-    background: transparent;
-    margin: 0;
-    padding: 0;
-    position: relative;
-  }
-`;
+  width: 100%;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
 
-export const ButtonCloseStyled = styled.button`
+[data-reach-dialog-header] {
+  position: absolute;
+  background-color: #fff;
+  right: 10px;
+  top: 10px;
+  z-index: 9999;
+}
+
+[data-reach-dialog-button-close] {
   color: #525f7f;
   background: transparent;
   border: none;
   padding: 0;
   margin: 8px;
   cursor: pointer;
-`;
+}
 
-export const Body = styled.div`
+[data-reach-dialog-body] {
   --modal-body-spacing-x: 58px;
   --modal-body-spacing-y: 48px;
   position: relative;
@@ -62,19 +68,13 @@ export const Body = styled.div`
   background-color: #fff;
   padding: var(--modal-body-spacing-y) var(--modal-body-spacing-x);
 
-  // Remove vertical margins of existing child DynamicForm, because
-  // modal body already provides a generous margin.
+  /*
+    Remove vertical margins of existing child DynamicForm, because
+    modal body already provides a generous margin.
+  */
   --dynamicFormContainerMargin: 0;
 
   &:last-child {
     border-radius: var(--modalRadius);
   }
-`;
-
-export const Header = styled.header`
-  position: absolute;
-  background-color: #fff;
-  right: 10px;
-  top: 10px;
-  z-index: 9999;
-`;
+}

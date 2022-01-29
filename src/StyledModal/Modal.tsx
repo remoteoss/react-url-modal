@@ -1,39 +1,33 @@
+import { DialogContent, DialogOverlay } from '@reach/dialog';
 import * as React from 'react';
 import { CloseIcon } from '../icons/Close';
-import {
-  Body,
-  ButtonCloseStyled,
-  Header,
-  ModalArea,
-  ModalContent,
-  ModalOverlay,
-} from './styles';
 
 export const Modal = ({
   children,
-  visible,
   onCancel,
   onDismiss,
 }: {
   children: React.ReactNode;
-  visible: boolean;
   onCancel?: () => void;
   onDismiss?: () => void;
-}) =>
-  visible ? (
-    <ModalOverlay isOpen={visible} onDismiss={onDismiss ?? onCancel}>
-      <ModalArea>
-        <ModalContent {...{ 'aria-label': 'Dialog area' }}>
-          <Header>
-            <ButtonCloseStyled
-              aria-label="Close Modal"
-              onClick={onDismiss ?? onCancel}
-            >
-              <CloseIcon width="14" />
-            </ButtonCloseStyled>
-          </Header>
-          <Body>{children}</Body>
-        </ModalContent>
-      </ModalArea>
-    </ModalOverlay>
-  ) : null;
+}) => (
+  <DialogOverlay isOpen onDismiss={onDismiss ?? onCancel}>
+    <div data-reach-dialog-area>
+      <DialogContent
+        data-reach-dialog-content
+        {...{ 'aria-label': 'Dialog area' }}
+      >
+        <div data-reach-dialog-header>
+          <button
+            aria-label="Close Modal"
+            onClick={onDismiss ?? onCancel}
+            data-reach-dialog-button-close
+          >
+            <CloseIcon width="14" />
+          </button>
+        </div>
+        <div data-reach-dialog-body>{children}</div>
+      </DialogContent>
+    </div>
+  </DialogOverlay>
+);
