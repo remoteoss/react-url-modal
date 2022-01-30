@@ -40,8 +40,10 @@
     "eslint-plugin-testing-library": "^5.0.4",
     "husky": "^7.0.4",
     "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "rollup": "^2.66.1",
+    "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-dts": "^4.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
@@ -49,8 +51,7 @@
     "size-limit": "^7.0.5",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
-    "typescript": "^4.5.5",
-    "postcss": "^8.4.5"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "@reach/dialog": "^0.16.2"
@@ -79,15 +80,15 @@
   "size-limit": [
     {
       "path": "dist/react-url-modal.cjs.js",
-      "limit": "1.82 KB"
+      "limit": "1.38 KB"
     },
     {
       "path": "dist/react-url-modal.esm.js",
-      "limit": "1.9 KB"
+      "limit": "1.44 KB"
     },
     {
       "path": "dist/Modal/index.js",
-      "limit": "13 KB"
+      "limit": "12.4 KB"
     }
   ]
 }

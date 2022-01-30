@@ -6,27 +6,26 @@ import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import dts from 'rollup-plugin-dts';
 import packageJson from './package.json';
+import bundleSize from 'rollup-plugin-bundle-size';
 
 const commonPlugins = [
   external(),
   resolve(),
   commonjs(),
+  bundleSize(),
   typescript({
     tsconfig: './tsconfig.json',
     declarationDir: 'types/',
   }),
-  terser(),
+  terser({
+    output: { comments: false },
+    ecma: 5,
+    warnings: true,
+  }),
 ];
-
-const terserOptions = {
-  treeshake: {
-    propertyReadSideEffects: false,
-  },
-};
 
 export default [
   {
-    ...terserOptions,
     input: 'src/StyledModal/index.ts',
     output: [
       {
@@ -35,11 +34,10 @@ export default [
         sourcemap: true,
       },
     ],
-    plugins: [...commonPlugins, postcss()],
+    plugins: [postcss(), ...commonPlugins],
   },
 
   {
-    ...terserOptions,
     input: 'src/index.ts',
     output: [
       {
