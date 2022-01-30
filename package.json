@@ -18,37 +18,8 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why",
     "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\""
   },
-  "peerDependencies": {
-    "react": ">=16",
-    "react-dom": ">=16"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "name": "use-modals",
-  "author": "Sara Vieira",
-  "module": "dist/use-modals.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/use-modals.cjs.production.min.js",
-      "limit": "25 KB"
-    },
-    {
-      "path": "dist/use-modals.esm.js",
-      "limit": "15 KB"
-    }
-  ],
   "devDependencies": {
     "@size-limit/preset-small-lib": "^7.0.5",
     "@types/react": "^17.0.38",
@@ -73,5 +44,37 @@
   },
   "dependencies": {
     "@reach/dialog": "^0.16.2"
-  }
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "name": "react-url-modal",
+  "author": "Remote",
+  "contributors": [
+    "SaraVieira",
+    "jfranciscosousa"
+  ],
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "module": "dist/react-url-modal.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/react-url-modal.cjs.production.min.js",
+      "limit": "25 KB"
+    },
+    {
+      "path": "dist/react-url-modal.esm.js",
+      "limit": "15 KB"
+    }
+  ]
 }
