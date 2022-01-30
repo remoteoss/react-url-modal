@@ -22,7 +22,8 @@
     "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\""
   },
   "peerDependencies": {
-    "react": ">=16"
+    "react": ">=16",
+    "react-dom": ">=16"
   },
   "husky": {
     "hooks": {
@@ -41,11 +42,11 @@
   "size-limit": [
     {
       "path": "dist/use-modals.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "25 KB"
     },
     {
       "path": "dist/use-modals.esm.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     }
   ],
   "devDependencies": {
@@ -65,8 +66,6 @@
     "eslint-plugin-testing-library": "^5.0.4",
     "husky": "^7.0.4",
     "prettier": "^2.5.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "size-limit": "^7.0.5",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
