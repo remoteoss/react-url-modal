@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { URLModal, openModal } from '../../';
 import Modal1 from './Modal1';
 import Modal2 from './Modal2';
-import '../../styles/index.css';
 
 const App = () => {
   return (
