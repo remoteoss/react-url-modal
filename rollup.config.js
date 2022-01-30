@@ -16,6 +16,7 @@ const commonPlugins = [
   typescript({
     tsconfig: './tsconfig.json',
     declarationDir: 'types/',
+    exclude: ['**/*.test.tsx', '**/*.test.ts'],
   }),
   terser({
     output: { comments: false },
