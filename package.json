@@ -1,28 +1,24 @@
 {
   "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/react-url-modal.cjs.js",
+  "module": "dist/react-url-modal.esm.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "dev": "run-p dev:main dev:modal",
-    "build:main": "tsdx build",
+    "dev": "rollup -c -w",
     "test": "tsdx test --passWithNoTests",
     "posttest": "npm run format",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "prepare": "npm run build",
     "size": "size-limit",
     "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\"",
-    "build:modal": "rollup -c",
-    "build": "run-s build:main build:modal",
-    "dev:main": "tsdx watch",
-    "dev:modal": "rollup -c -w"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -80,15 +76,14 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/react-url-modal.esm.js",
   "size-limit": [
     {
-      "path": "dist/react-url-modal.cjs.production.min.js",
-      "limit": "1.3 KB"
+      "path": "dist/react-url-modal.cjs.js",
+      "limit": "1.82 KB"
     },
     {
       "path": "dist/react-url-modal.esm.js",
-      "limit": "1.45 KB"
+      "limit": "1.9 KB"
     },
     {
       "path": "dist/Modal/index.js",

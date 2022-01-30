@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { URLModal, openModal } from '../../';
+import { openModal, URLModal } from '../../';
 import Modal1 from './Modal1';
 import Modal2 from './Modal2';
 
