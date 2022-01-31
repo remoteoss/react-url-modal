@@ -73,8 +73,8 @@
     modal body already provides a generous margin.
   */
   --dynamicFormContainerMargin: 0;
+}
 
-  &:last-child {
-    border-radius: var(--modalRadius);
-  }
+[data-reach-dialog-body]:last-child {
+  border-radius: var(--modalRadius);
 }

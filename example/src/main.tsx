@@ -92,18 +92,21 @@ const App = () => {
           <div className="flex items-center">
             <div className="flex flex-col text-xs border-0 border-r-2 border-r-indigo-400">
               <button
+                type="button"
                 className="text-gray-200 py-2 rounded-tl px-3 bg-slate-900 hover:bg-slate-700"
                 onClick={() => setPackageManager('npm')}
               >
                 NPM
               </button>
               <button
+                type="button"
                 className="text-gray-200 py-2 px-3 bg-slate-900 hover:bg-slate-700"
                 onClick={() => setPackageManager('yarn')}
               >
                 YARN
               </button>
               <button
+                type="button"
                 className="text-gray-200 py-2 rounded-bl px-3 bg-slate-900 hover:bg-slate-700"
                 onClick={() => setPackageManager('pnpm')}
               >
@@ -117,7 +120,10 @@ const App = () => {
               readOnly
             />
           </div>
-          <button className="right-6 absolute hover:text-indigo-200 active:text-green-500">
+          <button
+            className="right-6 absolute hover:text-indigo-200 active:text-green-500"
+            type="button"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"

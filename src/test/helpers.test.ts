@@ -76,6 +76,11 @@ describe('test decodedUrlParams', () => {
   });
 
   it('should decode when its URLSearchParams', () => {
+    createFakeWindowLocation({});
+    expect(decodedUrlParams()).toEqual({});
+  });
+
+  it('should return an empty object when nothing is passed', () => {
     expect(decodedUrlParams()).toEqual({ search: 'test' });
   });
 });
