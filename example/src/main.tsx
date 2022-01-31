@@ -31,11 +31,11 @@ function classNames(...classes: string[]) {
 const getText = (packageManager: PackageManagers) => {
   const packageName = 'react-url-modal';
   switch (packageManager) {
-    case 'npm':
+    case PackageManagers.NPM:
       return `npm install ${packageName}`;
-    case 'pnpm':
+    case PackageManagers.PNPM:
       return `pnpm install ${packageName}`;
-    case 'yarn':
+    case PackageManagers.YARN:
       return `yarn add ${packageName}`;
   }
 };
