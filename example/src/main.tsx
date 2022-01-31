@@ -7,12 +7,15 @@ import { Code } from './components/Code';
 import {
   dynamicImportedModal,
   standardModalCode,
+  usePortals,
   withCustomWrapper,
   withModal,
   withParams,
 } from './code';
 import {
   CustomWrapper,
+  DynamicModal,
+  PortalExample,
   StandardModal,
   WithModal,
   WithParams,
@@ -48,20 +51,14 @@ const App = () => {
   const tabs = [
     {
       name: 'Standard Modal',
-      onClick: () => setTab(0),
-      current: tab === 0,
       code: standardModalCode,
     },
     {
       name: 'Modal With Params',
-      onClick: () => setTab(1),
-      current: tab === 1,
       code: withParams,
     },
     {
       name: 'Modal With Custom Wrapper',
-      onClick: () => setTab(2),
-      current: tab === 2,
       code: withCustomWrapper,
     },
     {
@@ -72,11 +69,17 @@ const App = () => {
     },
     {
       name: 'Using our Modal Component',
-      onClick: () => setTab(4),
-      current: tab === 4,
       code: withModal,
     },
-  ];
+    {
+      name: 'Using portals',
+      code: usePortals,
+    },
+  ].map((example, i) => ({
+    ...example,
+    current: tab === i,
+    onClick: () => setTab(i),
+  }));
 
   return (
     <div className="sm:grid sm:grid-cols-[30vw_1fr] gap-6 min-h-screen sm:max-w-full max-w-[80%] m-auto">
@@ -116,13 +119,13 @@ const App = () => {
               </button>
             </div>
             <input
-              onClick={() => clipboardCopy(getText(packageManager))}
               className="bg-slate-900 outline-none p-6 rounded-r shadow-sm min-w-[350px] h-[96px]"
               value={getText(packageManager)}
               readOnly
             />
           </div>
           <button
+            onClick={() => clipboardCopy(getText(packageManager))}
             className="right-6 absolute hover:text-indigo-200 active:text-green-500"
             type="button"
           >
@@ -143,7 +146,7 @@ const App = () => {
           </button>
         </div>
       </div>
-      <div className="sm:p-12 p-0 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm  pb-12">
+      <div className="sm:p-12 p-0 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm text-slate-100 pb-12">
         <div>
           <div className="hidden sm:block ">
             <nav className="flex" aria-label="Tabs">
@@ -174,7 +177,9 @@ const App = () => {
         {tab === 0 && <StandardModal />}
         {tab === 1 && <WithParams />}
         {tab === 2 && <CustomWrapper />}
+        {tab === 3 && <DynamicModal />}
         {tab === 4 && <WithModal />}
+        {tab === 5 && <PortalExample />}
       </div>
     </div>
   );

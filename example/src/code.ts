@@ -132,3 +132,30 @@ export const App = () => (
   </>
 );
 `;
+
+
+export const usePortals = `
+import { URLModal } from "react-url-modal";
+
+const PortalModal = () => <>I am rendered in a portal</>;
+
+export const App = () => (
+  <>
+    <URLModal
+      modals={{
+        portalModal: PortalModal,
+      }}
+      usePortals
+    />
+    <button
+      onClick={() =>
+        openModal({
+          name: 'portalModal',
+        })
+      }
+    >
+      Open
+    </button>
+  </>
+);
+`;

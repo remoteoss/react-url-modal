@@ -4,11 +4,27 @@ import React, {
   Suspense,
   useCallback,
   Fragment,
+  LazyExoticComponent,
+  ElementType,
 } from 'react';
-import type { ElementType, LazyExoticComponent } from 'react';
 import { MODAL_KEY, PARAMS_KEY } from './constants';
 import { createURL, decodedUrlParams, encodeUrlParams } from './helpers';
 import { useCustomEvent } from './hooks/useCustomEvent';
+import Portal from './Portal';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ComponentType = (...args: any) => JSX.Element;
+
+export type ModalChildren = ComponentType | LazyExoticComponent<ComponentType>;
+
+export interface ModalWrapperProps {
+  modals: {
+    [name: string]: ModalChildren;
+  };
+  Wrapper?: ElementType;
+  usePortal?: boolean;
+  portalElement?: HTMLElement | null;
+}
 
 const routerPush = (href: string) =>
   window.history.pushState({ path: href }, '', href);
@@ -63,19 +79,12 @@ export const closeModal = () => {
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ComponentType = (...args: any) => JSX.Element;
-
-export type ModalChildren = ComponentType | LazyExoticComponent<ComponentType>;
-
-export interface ModalWrapperProps {
-  modals: {
-    [name: string]: ModalChildren;
-  };
-  Wrapper?: ElementType;
-}
-
-export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
+export function URLModal({
+  modals,
+  Wrapper,
+  usePortal,
+  portalElement,
+}: ModalWrapperProps) {
   const [extraProps, setExtraProps] = useState({});
   const urlParams = new URLSearchParams(window.location.search);
   const [modalName, setModalName] = useState<string | null>(
@@ -148,16 +157,24 @@ export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
       }
     : {};
 
+  const RootEl = usePortal ? Portal : Fragment;
+  const rootElProps = usePortal
+    ? {
+        parent: portalElement,
+      }
+    : {};
   return (
-    <WrapperEl {...wrapperProps}>
-      <Suspense fallback={false}>
-        <Component
-          onCancel={onClose}
-          onSubmit={onSubmit}
-          params={getData()}
-          {...extraProps}
-        />
-      </Suspense>
-    </WrapperEl>
+    <RootEl {...rootElProps}>
+      <WrapperEl {...wrapperProps}>
+        <Suspense fallback={false}>
+          <Component
+            onCancel={onClose}
+            onSubmit={onSubmit}
+            params={getData()}
+            {...extraProps}
+          />
+        </Suspense>
+      </WrapperEl>
+    </RootEl>
   );
 }
