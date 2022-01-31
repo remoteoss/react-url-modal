@@ -1,5 +1,5 @@
-import { Modal, openModal, URLModal } from '../../../';
-
+import { openModal, URLModal } from '../../../';
+import { Modal } from '../../../dist/Modal';
 const StandardModalContent = () => <>No params! Simple stuff</>;
 
 const ModalWithParams = ({ params }: { params: { [key: string]: string } }) => (

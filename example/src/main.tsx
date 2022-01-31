@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import '../../styles/index.css';
+
 import './style.css';
 import clipboardCopy from 'clipboard-copy';
 import { useState } from 'react';
@@ -41,7 +41,9 @@ const getText = (packageManager: PackageManagers) => {
 };
 
 const App = () => {
-  const [packageManager, setPackageManager] = useState<PackageManagers>('npm');
+  const [packageManager, setPackageManager] = useState<PackageManagers>(
+    PackageManagers.NPM
+  );
   const [tab, setTab] = useState(0);
   const tabs = [
     {
@@ -94,21 +96,21 @@ const App = () => {
               <button
                 type="button"
                 className="text-gray-200 py-2 rounded-tl px-3 bg-slate-900 hover:bg-slate-700"
-                onClick={() => setPackageManager('npm')}
+                onClick={() => setPackageManager(PackageManagers.NPM)}
               >
                 NPM
               </button>
               <button
                 type="button"
                 className="text-gray-200 py-2 px-3 bg-slate-900 hover:bg-slate-700"
-                onClick={() => setPackageManager('yarn')}
+                onClick={() => setPackageManager(PackageManagers.YARN)}
               >
                 YARN
               </button>
               <button
                 type="button"
                 className="text-gray-200 py-2 rounded-bl px-3 bg-slate-900 hover:bg-slate-700"
-                onClick={() => setPackageManager('pnpm')}
+                onClick={() => setPackageManager(PackageManagers.PNPM)}
               >
                 PNPM
               </button>

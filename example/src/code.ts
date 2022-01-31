@@ -107,7 +107,8 @@ export const App = () => (
 `;
 
 export const withModal = `
-import { URLModal, openModal, Modal } from 'react-url-modal';
+import { URLModal, openModal } from 'react-url-modal';
+import { Modal } from 'react-url-modal/Modal';
 
 const WithModal = () => <>I use the default Modal</>;
 
