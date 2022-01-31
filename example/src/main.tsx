@@ -79,7 +79,7 @@ const App = () => {
   ];
 
   return (
-    <div className="sm:grid sm:grid-cols-[30vw_1fr] gap-6 min-h-screen sm:max-w-full max-w-[80%] m-auto pb-12">
+    <div className="sm:grid sm:grid-cols-[30vw_1fr] gap-6 min-h-screen sm:max-w-full max-w-[80%] m-auto">
       <div className="flex items-center justify-center flex-col sm:mb-0 mb-6 py-6 sm:py-0">
         <h1 className="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
           React
@@ -143,7 +143,7 @@ const App = () => {
           </button>
         </div>
       </div>
-      <div className="sm:p-12 p-0 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm">
+      <div className="sm:p-12 p-0 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm  pb-12">
         <div>
           <div className="hidden sm:block ">
             <nav className="flex" aria-label="Tabs">
