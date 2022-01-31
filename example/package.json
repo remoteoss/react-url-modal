@@ -7,7 +7,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "^0.13.8",
     "@tailwindcss/forms": "^0.4.0",
     "autoprefixer": "^10.4.2",
     "clipboard-copy": "^4.0.1",
