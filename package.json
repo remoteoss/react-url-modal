@@ -1,58 +1,34 @@
 {
   "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/react-url-modal.cjs.js",
+  "module": "dist/react-url-modal.esm.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "dev": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
+    "dev": "rollup -c -w",
+    "test": "jest",
     "posttest": "npm run format",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
-    "prepare": "tsdx build",
+    "prepare": "npm run build",
     "size": "size-limit",
-    "analyze": "size-limit --why",
-    "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\""
+    "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\"",
+    "build": "rollup -c",
+    "test:coverage": "jest --coverage"
   },
-  "peerDependencies": {
-    "react": ">=16"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "name": "use-modals",
-  "author": "Sara Vieira",
-  "module": "dist/use-modals.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/use-modals.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/use-modals.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@size-limit/preset-small-lib": "^7.0.5",
+    "@types/jest": "^27.4.0",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
-    "@types/styled-components": "^5.1.21",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "eslint": "^8.7.0",
@@ -64,15 +40,57 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-testing-library": "^5.0.4",
     "husky": "^7.0.4",
+    "jest": "^27.4.7",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.5",
     "prettier": "^2.5.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "rollup": "^2.66.1",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-dts": "^4.1.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
     "size-limit": "^7.0.5",
-    "tsdx": "^0.14.1",
+    "ts-jest": "^27.1.3",
     "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   },
   "dependencies": {
     "@reach/dialog": "^0.16.2"
-  }
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "name": "react-url-modal",
+  "author": "Remote",
+  "contributors": [
+    "SaraVieira",
+    "jfranciscosousa"
+  ],
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "size-limit": [
+    {
+      "path": "dist/react-url-modal.cjs.js",
+      "limit": "1.38 KB"
+    },
+    {
+      "path": "dist/react-url-modal.esm.js",
+      "limit": "1.44 KB"
+    },
+    {
+      "path": "dist/Modal/index.js",
+      "limit": "12.4 KB"
+    }
+  ]
 }

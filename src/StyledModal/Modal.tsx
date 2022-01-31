@@ -1,8 +1,7 @@
 import React from 'react';
 import { DialogContent, DialogOverlay } from '@reach/dialog';
-
+import './styles/index.css';
 import { CloseIcon } from '../icons/Close';
-
 export const Modal = ({
   children,
   onCancel,
