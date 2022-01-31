@@ -8,7 +8,7 @@
   },
   "settings": {
     "react": {
-      "version": "detect"
+      "version": "latest"
     },
     "formComponents": ["Form"],
     "linkComponents": [

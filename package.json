@@ -14,7 +14,7 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "posttest": "npm run format",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "npm run build",
     "size": "size-limit",
     "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\"",
