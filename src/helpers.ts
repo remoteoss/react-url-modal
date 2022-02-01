@@ -21,6 +21,7 @@ export const decodedUrlParams = () => {
 };
 
 export const isModalOpen = (name: string): boolean => {
-  const modalName = new URLSearchParams(window.location.search).get(MODAL_KEY);
+  const search = new URLSearchParams(window.location.search);
+  const modalName = search.get(MODAL_KEY);
   return modalName === name;
 };

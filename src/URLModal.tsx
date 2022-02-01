@@ -4,11 +4,32 @@ import React, {
   Suspense,
   useCallback,
   Fragment,
+  LazyExoticComponent,
+  ElementType,
 } from 'react';
-import type { ElementType, LazyExoticComponent } from 'react';
 import { MODAL_KEY, PARAMS_KEY } from './constants';
 import { createURL, decodedUrlParams, encodeUrlParams } from './helpers';
 import { useCustomEvent } from './hooks/useCustomEvent';
+import { Portal } from './Portal';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ComponentType = (...args: any) => JSX.Element;
+
+export type ModalChildren = ComponentType | LazyExoticComponent<ComponentType>;
+
+export type openModalProps = {
+  name: string;
+  params?: Record<string, unknown>;
+};
+
+export interface ModalWrapperProps {
+  modals: {
+    [name: string]: ModalChildren;
+  };
+  Wrapper?: ElementType;
+  usePortal?: boolean;
+  portalElement?: HTMLElement | null;
+}
 
 const routerPush = (href: string) =>
   window.history.pushState({ path: href }, '', href);
@@ -25,14 +46,7 @@ const cleanSearchParams = () => {
   return createURL(urlParams);
 };
 
-export const openModal = ({
-  name,
-  params,
-  ...props
-}: {
-  name: string;
-  params?: Record<string, unknown>;
-}) => {
+export const openModal = ({ name, params, ...props }: openModalProps) => {
   routerReplace(cleanSearchParams());
   const urlParams = new URLSearchParams(window.location.search);
 
@@ -63,19 +77,12 @@ export const closeModal = () => {
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ComponentType = (...args: any) => JSX.Element;
-
-export type ModalChildren = ComponentType | LazyExoticComponent<ComponentType>;
-
-export interface ModalWrapperProps {
-  modals: {
-    [name: string]: ModalChildren;
-  };
-  Wrapper: ElementType;
-}
-
-export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
+export const URLModal = ({
+  modals,
+  Wrapper,
+  usePortal,
+  portalElement,
+}: ModalWrapperProps) => {
   const [extraProps, setExtraProps] = useState({});
   const urlParams = new URLSearchParams(window.location.search);
   const [modalName, setModalName] = useState<string | null>(
@@ -131,10 +138,6 @@ export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
     }
   };
 
-  const onSubmit = () => window.dispatchEvent(new Event(`${modalName}-submit`));
-
-  const onClose = () => closeModal();
-
   const Component = modalName ? modals[modalName] : null;
 
   if (!Component) return null;
@@ -143,21 +146,32 @@ export function URLModal({ modals, Wrapper }: ModalWrapperProps) {
   const wrapperProps = Wrapper
     ? {
         visible: !!Component,
-        onCancel: onClose,
-        onDismiss: onClose,
+        onCancel: closeModal,
+        onDismiss: closeModal,
+      }
+    : {};
+
+  const RootEl = usePortal ? Portal : Fragment;
+  const rootElProps = usePortal
+    ? {
+        parent: portalElement,
       }
     : {};
 
   return (
-    <WrapperEl {...wrapperProps}>
-      <Suspense fallback={false}>
-        <Component
-          onCancel={onClose}
-          onSubmit={onSubmit}
-          params={getData()}
-          {...extraProps}
-        />
-      </Suspense>
-    </WrapperEl>
+    <RootEl {...rootElProps}>
+      <WrapperEl {...wrapperProps}>
+        <Suspense fallback={false}>
+          <Component
+            onCancel={closeModal}
+            onSubmit={() =>
+              window.dispatchEvent(new Event(`${modalName}-submit`))
+            }
+            params={getData()}
+            {...extraProps}
+          />
+        </Suspense>
+      </WrapperEl>
+    </RootEl>
   );
-}
+};
