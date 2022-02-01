@@ -146,8 +146,7 @@ export const URLModal = ({
   const wrapperProps = Wrapper
     ? {
         visible: !!Component,
-        onCancel: closeModal,
-        onDismiss: closeModal,
+        onClose: closeModal,
       }
     : {};
 
@@ -164,6 +163,7 @@ export const URLModal = ({
         <Suspense fallback={false}>
           <Component
             onCancel={closeModal}
+            onClose={closeModal}
             onSubmit={() =>
               window.dispatchEvent(new Event(`${modalName}-submit`))
             }
