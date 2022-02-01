@@ -20,15 +20,12 @@ import {
   WithModal,
   WithParams,
 } from './components/Examples';
+import classNames from 'classnames';
 
 enum PackageManagers {
   NPM = 'npm',
   YARN = 'yarn',
   PNPM = 'pnpm',
-}
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
 }
 
 const getText = (packageManager: PackageManagers) => {
@@ -156,15 +153,16 @@ const App = () => {
                   key={tab.name}
                   onClick={tab.onClick}
                   className={classNames(
-                    idx === 0 ? 'rounded-l-md' : '',
-                    idx === tabs.length - 1 ? 'rounded-r-md' : '',
-                    idx !== tabs.length - 1
-                      ? 'border-0 border-r-2 border-r-slate-900'
-                      : '',
-                    tab.current
-                      ? 'bg-indigo-800 text-slate-100'
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-indigo-800 bg-slate-800',
-                    'px-4 py-3 font-medium text-sm flex-grow'
+                    'px-4 py-3 font-medium text-sm flex-grow',
+                    {
+                      'rounded-l-md': idx === 0,
+                      'rounded-r-md': idx === tabs.length - 1,
+                      'border-0 border-r-2 border-r-slate-900':
+                        idx !== tabs.length - 1,
+                      'bg-indigo-800 text-slate-100': !!tab.current,
+                      'text-slate-400 hover:text-slate-100 hover:bg-indigo-800 bg-slate-800':
+                        !tab.current,
+                    }
                   )}
                 >
                   {tab.name}
