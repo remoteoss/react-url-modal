@@ -4,7 +4,7 @@ import { Modal } from '../../../dist/Modal';
 const StandardModalContent = () => <>No params! Simple stuff</>;
 
 const ModalWithParams = ({ params }: { params: { [key: string]: string } }) => (
-  <>{params.stuff}</>
+  <>I have the params: {JSON.stringify(params.stuff)}</>
 );
 const CustomWrapperModal = () => (
   <>I am a modal with a custom component wrapper</>
@@ -67,7 +67,7 @@ export const CustomWrapper = () => (
         customWrapper: CustomWrapperModal,
       }}
       Wrapper={({ onClose, children }) => (
-        <div className="bg-slate-100 p-4 relative rounded text-slate-700 py-6">
+        <div className="bg-slate-100 p-4 relative rounded text-slate-700 py-6 ">
           {children}
           <button
             onClick={onClose}
@@ -113,7 +113,9 @@ export const DynamicModal = () => (
   </>
 );
 
-const PortalModal = () => <>I am rendered in a portal</>;
+const PortalModal = () => (
+  <p className="bg-white text-slate-900 p-4">I am rendered in a portal</p>
+);
 
 export const PortalExample = () => (
   <>

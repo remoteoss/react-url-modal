@@ -21,6 +21,7 @@ import {
   WithParams,
 } from './components/Examples';
 import classNames from 'classnames';
+import { CopyIcon, GitHubIcon } from './components/Icons';
 
 enum PackageManagers {
   NPM = 'npm',
@@ -44,33 +45,40 @@ const App = () => {
   const [packageManager, setPackageManager] = useState<PackageManagers>(
     PackageManagers.NPM
   );
+
   const [tab, setTab] = useState(0);
   const tabs = [
     {
       name: 'Standard Modal',
       code: standardModalCode,
+      Component: StandardModal,
     },
     {
       name: 'Modal With Params',
       code: withParams,
+      Component: WithParams,
     },
     {
       name: 'Modal With Custom Wrapper',
       code: withCustomWrapper,
+      Component: CustomWrapper,
     },
     {
       name: 'Dynamically imported Modal',
       onClick: () => setTab(3),
       current: tab === 3,
       code: dynamicImportedModal,
+      Component: DynamicModal,
     },
     {
       name: 'Using our Modal Component',
       code: withModal,
+      Component: WithModal,
     },
     {
       name: 'Using portals',
       code: usePortals,
+      Component: PortalExample,
     },
   ].map((example, i) => ({
     ...example,
@@ -90,33 +98,33 @@ const App = () => {
         <p className="leading-normal text-base md:text-2xl text-gray-900 mb-8 text-center md:text-left">
           Persistent Modal state with the URL
         </p>
-        <div className="flex items-center justify-center relative">
-          <div className="flex items-center">
-            <div className="flex flex-col text-xs border-0 border-r-2 border-r-indigo-400">
+        <div className=" flex items-center justify-center relative">
+          <div className="block sm:flex items-center">
+            <div className="grid grid-cols-3 sm:flex sm:flex-col text-xs border-0 sm:border-r-2 sm:border-r-indigo-400">
               <button
                 type="button"
-                className="text-gray-200 py-2 rounded-tl px-3 bg-slate-900 hover:bg-slate-700"
+                className="text-gray-200 py-2 rounded-tl px-3 bg-slate-900 hover:bg-slate-700 grow"
                 onClick={() => setPackageManager(PackageManagers.NPM)}
               >
                 NPM
               </button>
               <button
                 type="button"
-                className="text-gray-200 py-2 px-3 bg-slate-900 hover:bg-slate-700"
+                className="text-gray-200 py-2 px-3 bg-slate-900 hover:bg-slate-700 grow"
                 onClick={() => setPackageManager(PackageManagers.YARN)}
               >
                 YARN
               </button>
               <button
                 type="button"
-                className="text-gray-200 py-2 rounded-bl px-3 bg-slate-900 hover:bg-slate-700"
+                className="text-gray-200 py-2 sm:rounded-bl rounded-tr px-3 bg-slate-900 hover:bg-slate-700 grow"
                 onClick={() => setPackageManager(PackageManagers.PNPM)}
               >
                 PNPM
               </button>
             </div>
             <input
-              className="bg-slate-900 outline-none p-6 rounded-r shadow-sm min-w-[350px] h-[96px]"
+              className="bg-slate-900 outline-none p-6 sm:rounded-r rounded-b shadow-sm min-w-[350px] h-[96px]"
               value={getText(packageManager)}
               readOnly
             />
@@ -126,26 +134,19 @@ const App = () => {
             className="right-6 absolute hover:text-indigo-200 active:text-green-500"
             type="button"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </svg>
+            <CopyIcon />
           </button>
         </div>
+        <a
+          href="https://github.com/remoteoss/react-url-modal"
+          className="mt-6 flex gap-2 text-slate-200"
+        >
+          Open on <GitHubIcon />
+        </a>
       </div>
       <div className="sm:p-12 p-0 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm text-slate-100 pb-12">
         <div>
-          <div className="hidden sm:block ">
+          <div className="block max-w-screen overflow-auto">
             <nav className="flex" aria-label="Tabs">
               {tabs.map((tab, idx) => (
                 <button
@@ -153,7 +154,7 @@ const App = () => {
                   key={tab.name}
                   onClick={tab.onClick}
                   className={classNames(
-                    'px-4 py-3 font-medium text-sm flex-grow',
+                    'px-4 py-3 font-medium text-xs sm:text-sm flex-grow',
                     {
                       'rounded-l-md': idx === 0,
                       'rounded-r-md': idx === tabs.length - 1,
@@ -172,12 +173,7 @@ const App = () => {
           </div>
         </div>
         <Code code={tabs[tab].code} />
-        {tab === 0 && <StandardModal />}
-        {tab === 1 && <WithParams />}
-        {tab === 2 && <CustomWrapper />}
-        {tab === 3 && <DynamicModal />}
-        {tab === 4 && <WithModal />}
-        {tab === 5 && <PortalExample />}
+        <div className="sm:p-0 pl-2">{tabs[tab].Component()}</div>
       </div>
     </div>
   );
