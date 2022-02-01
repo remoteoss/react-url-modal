@@ -13,6 +13,7 @@ const WithModalComponent = () => <>I use the default Modal</>;
 
 const OpenButton = ({ params }: any) => (
   <button
+    type="button"
     onClick={() => openModal(params)}
     className="px-6 py-3 my-3 block text-slate-50 bg-slate-800 rounded-lg shadow-md hover:bg-slate-700 hover:text-slate-200"
   >
@@ -65,11 +66,11 @@ export const CustomWrapper = () => (
       modals={{
         customWrapper: CustomWrapperModal,
       }}
-      Wrapper={({ onCancel, children }) => (
+      Wrapper={({ onClose, children }) => (
         <div className="bg-slate-100 p-4 relative rounded text-slate-700 py-6">
           {children}
           <button
-            onClick={onCancel}
+            onClick={onClose}
             type="button"
             className="px-2 text-sm text-slate-900 rounded absolute top-0 right-0 mt-4 mr-4"
           >
