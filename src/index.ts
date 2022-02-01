@@ -1,2 +1,8 @@
-export { URLModal, openModal, closeModal } from './URLModal';
-export { encodeUrlParams, decodedUrlParams, isModalOpen } from './helpers';
+export { URLModal } from './URLModal';
+export {
+    encodeUrlParams,
+    decodedUrlParams,
+    isModalOpen,
+    openModal,
+    closeModal,
+} from './helpers';
