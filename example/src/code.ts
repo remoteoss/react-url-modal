@@ -133,7 +133,6 @@ export const App = () => (
 );
 `;
 
-
 export const usePortals = `
 import { URLModal } from "react-url-modal";
 

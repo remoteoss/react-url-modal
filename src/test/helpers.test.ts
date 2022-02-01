@@ -1,12 +1,18 @@
+import { MODAL_KEY, PARAMS_KEY } from '../constants';
 import {
+  cleanSearchParams,
+  closeModal,
   createURL,
   decodedUrlParams,
   encodeUrlParams,
   isModalOpen,
+  openModal,
 } from '../helpers';
 const realLocation = window.location;
 
-const createFakeWindowLocation = (search: { [key: string]: string }) => {
+const createFakeWindowLocation = (search: {
+  [key: string]: string | Record<string, unknown>;
+}) => {
   global.window = Object.create(window);
 
   Object.defineProperty(window, 'location', {
@@ -102,5 +108,88 @@ describe('test isModalOpen', () => {
       modal: 'notTheSameName',
     });
     expect(isModalOpen('AnotherModalName')).toBe(false);
+  });
+});
+
+describe('test openModal', () => {
+  afterEach(() => {
+    global.window.location = realLocation;
+    closeModal();
+  });
+  it('should open modal by adding the modal param', () => {
+    openModal({
+      name: 'ModalName',
+    });
+    expect(new URLSearchParams(window.location.search).get(MODAL_KEY)).toBe(
+      'ModalName'
+    );
+  });
+  it('should also append any params passed', () => {
+    openModal({
+      name: 'ModalName',
+      params: {
+        hello: 'world',
+      },
+    });
+    expect(new URLSearchParams(window.location.search).get(MODAL_KEY)).toBe(
+      'ModalName'
+    );
+    expect(new URLSearchParams(window.location.search).get(PARAMS_KEY)).toBe(
+      'JTdCJTIyaGVsbG8lMjI6JTIyd29ybGQlMjIlN0Q='
+    );
+  });
+});
+
+describe('test closeModal', () => {
+  beforeEach(() => {
+    global.window.location = realLocation;
+  });
+  it('should close a modal', async () => {
+    const search = new URLSearchParams(global.window.location.search);
+    createFakeWindowLocation({
+      modal: 'aModal',
+    });
+
+    closeModal();
+    expect(search.get(MODAL_KEY)).toBeNull();
+  });
+  it('should also delete any params passed', () => {
+    const search = new URLSearchParams(global.window.location.search);
+    createFakeWindowLocation({
+      modal: 'ModalName',
+      params: {
+        hello: 'world',
+      },
+    });
+    closeModal();
+    expect(search.get(MODAL_KEY)).toBeNull();
+    expect(search.get(PARAMS_KEY)).toBeNull();
+  });
+});
+
+describe('test cleanSearchParams', () => {
+  beforeEach(() => {
+    global.window.location = realLocation;
+  });
+  it('should clear modal param', async () => {
+    const search = new URLSearchParams(global.window.location.search);
+    createFakeWindowLocation({
+      modal: 'aModal',
+    });
+
+    cleanSearchParams();
+    expect(search.get(MODAL_KEY)).toBeNull();
+  });
+  it('should also delete any params passed', () => {
+    const search = new URLSearchParams(global.window.location.search);
+    createFakeWindowLocation({
+      modal: 'ModalName',
+      params: {
+        hello: 'world',
+      },
+    });
+    cleanSearchParams();
+    expect(search.get(MODAL_KEY)).toBeNull();
+    expect(search.get(PARAMS_KEY)).toBeNull();
   });
 });
