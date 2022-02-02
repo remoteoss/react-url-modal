@@ -4,14 +4,12 @@ import './styles/index.css';
 import { CloseIcon } from '../icons/Close';
 export const Modal = ({
   children,
-  onCancel,
-  onDismiss,
+  onClose,
 }: {
   children: React.ReactNode;
-  onCancel?: () => void;
-  onDismiss?: () => void;
+  onClose?: () => void;
 }) => (
-  <DialogOverlay isOpen onDismiss={onDismiss ?? onCancel}>
+  <DialogOverlay isOpen onDismiss={onClose}>
     <div data-reach-dialog-area>
       <DialogContent
         data-reach-dialog-content
@@ -21,7 +19,7 @@ export const Modal = ({
           <button
             type="button"
             aria-label="Close Modal"
-            onClick={onDismiss ?? onCancel}
+            onClick={onClose}
             data-reach-dialog-button-close
           >
             <CloseIcon width="14" />
