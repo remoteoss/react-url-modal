@@ -1,6 +1,6 @@
 import React from 'react';
-import { openModal, URLModal } from '../../../';
-import { Modal } from '../../../dist/Modal';
+import { openModal, URLModal } from 'react-url-modal';
+import { Modal } from 'react-url-modal/Modal';
 const StandardModalContent = () => <>No params! Simple stuff</>;
 
 const ModalWithParams = ({ params }: { params: { [key: string]: string } }) => (
