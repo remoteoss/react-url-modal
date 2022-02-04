@@ -3,25 +3,12 @@ import ReactDOM from 'react-dom';
 import './style.css';
 import clipboardCopy from 'clipboard-copy';
 import { useState } from 'react';
+
 import { Code } from './components/Code';
-import {
-  dynamicImportedModal,
-  standardModalCode,
-  usePortals,
-  withCustomWrapper,
-  withModal,
-  withParams,
-} from './code';
-import {
-  CustomWrapper,
-  DynamicModal,
-  PortalExample,
-  StandardModal,
-  WithModal,
-  WithParams,
-} from './components/Examples';
+
 import classNames from 'classnames';
 import { CopyIcon, GitHubIcon } from './components/Icons';
+import { useTabs } from './useTabs';
 
 enum PackageManagers {
   NPM = 'npm',
@@ -45,46 +32,7 @@ const App = () => {
   const [packageManager, setPackageManager] = useState<PackageManagers>(
     PackageManagers.NPM
   );
-
-  const [tab, setTab] = useState(0);
-  const tabs = [
-    {
-      name: 'Standard Modal',
-      code: standardModalCode,
-      Component: StandardModal,
-    },
-    {
-      name: 'Modal With Params',
-      code: withParams,
-      Component: WithParams,
-    },
-    {
-      name: 'Modal With Custom Wrapper',
-      code: withCustomWrapper,
-      Component: CustomWrapper,
-    },
-    {
-      name: 'Dynamically imported Modal',
-      onClick: () => setTab(3),
-      current: tab === 3,
-      code: dynamicImportedModal,
-      Component: DynamicModal,
-    },
-    {
-      name: 'Using our Modal Component',
-      code: withModal,
-      Component: WithModal,
-    },
-    {
-      name: 'Using portals',
-      code: usePortals,
-      Component: PortalExample,
-    },
-  ].map((example, i) => ({
-    ...example,
-    current: tab === i,
-    onClick: () => setTab(i),
-  }));
+  const { currentTab, tabs } = useTabs();
 
   return (
     <div className="sm:grid sm:grid-cols-[30vw_1fr] gap-6 min-h-screen sm:max-w-full max-w-[80%] m-auto">
@@ -172,8 +120,8 @@ const App = () => {
             </nav>
           </div>
         </div>
-        <Code code={tabs[tab].code} />
-        <div className="sm:p-0 pl-2">{tabs[tab].Component()}</div>
+        <Code code={tabs[currentTab].code} />
+        <div className="sm:p-0 pl-2">{tabs[currentTab].Component()}</div>
       </div>
     </div>
   );
