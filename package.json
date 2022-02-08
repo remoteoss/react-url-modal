@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "dist/react-url-modal.cjs.js",
   "module": "dist/react-url-modal.esm.js",
