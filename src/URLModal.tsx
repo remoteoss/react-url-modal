@@ -117,6 +117,7 @@ export const URLModal = ({
               window.dispatchEvent(new Event(`${modalName}-submit`))
             }
             params={getData()}
+            modalName={modalName}
             {...extraProps}
           />
         </Suspense>
