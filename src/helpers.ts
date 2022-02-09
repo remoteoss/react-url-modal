@@ -13,12 +13,20 @@ export const createURL = (urlParams: URLSearchParams) => {
   return `${protocol}//${host}${pathname}${search.length ? '?' : ''}${search}`;
 };
 
-const routerPush = (href: string) =>
+const triggerPopState = () => {
+  const popStateEvent = new PopStateEvent('popstate', { state: null });
+  dispatchEvent(popStateEvent);
+};
+
+const routerPush = (href: string) => {
   window.history.pushState({ path: href }, '', href);
+  triggerPopState();
+};
 
-const routerReplace = (href: string) =>
+const routerReplace = (href: string) => {
   window.history.replaceState({ path: href }, '', href);
-
+  triggerPopState();
+};
 export const cleanSearchParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
 
