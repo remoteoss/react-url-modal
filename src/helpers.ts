@@ -22,6 +22,8 @@ export const createURL = (urlParams: URLSearchParams) => {
 
 const nextPush = async (href: string) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const Router = await (await import('next/router')).default;
     Router.push(href, undefined, { shallow: true });
   } catch {
