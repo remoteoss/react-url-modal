@@ -21,12 +21,22 @@ export const createURL = (urlParams: URLSearchParams) => {
   return `${protocol}//${host}${pathname}${search.length ? '?' : ''}${search}`;
 };
 
-const nextPush = async (href: string) => {
+const nextRouterAction = async ({
+  href,
+  replace,
+}: {
+  href: string;
+  replace?: boolean;
+}) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const Router = await (await import('next/router')).default;
-    Router.push(href, undefined, { shallow: true });
+    if (replace) {
+      Router.replace(href, undefined, { shallow: true });
+    } else {
+      Router.push(href, undefined, { shallow: true });
+    }
   } catch {
     console.log(`There was an error while trying to push to ${href}`);
   }
@@ -34,7 +44,7 @@ const nextPush = async (href: string) => {
 
 const routerPush = async (href: string) => {
   if (store.getState().adapter === 'nextjs') {
-    await nextPush(href);
+    await nextRouterAction({ href });
   } else {
     window.history.pushState({ path: href }, '', href);
   }
@@ -42,7 +52,7 @@ const routerPush = async (href: string) => {
 
 const routerReplace = async (href: string) => {
   if (store.getState().adapter === 'nextjs') {
-    await nextPush(href);
+    await nextRouterAction({ href, replace: true });
   } else {
     window.history.replaceState({ path: href }, '', href);
   }
