@@ -100,12 +100,13 @@ To see all the available props you can check the API reference below.
 />
 ```
 
-| Parameter       | Type                                                    | Description                                          |
-| :-------------- | :------------------------------------------------------ | :--------------------------------------------------- |
-| `modals`        | `[name: string]: React Component or Promise<Component>` | **Required**                                         |
-| `Wrapper`       | `React Component`                                       | A component to wrap each modal with                  |
-| `usePortal`     | `boolean`                                               | Should this modal be mounted on a portal             |
-| `portalElement` | `HTML Element`                                          | A component to mount the modals in, defaults to body |
+| Parameter       | Type                                                    | Description                                                     |
+| :-------------- | :------------------------------------------------------ | :-------------------------------------------------------------- |
+| `modals`        | `[name: string]: React Component or Promise<Component>` | **Required**                                                    |
+| `Wrapper`       | `React Component`                                       | A component to wrap each modal with                             |
+| `usePortal`     | `boolean`                                               | Should this modal be mounted on a portal                        |
+| `portalElement` | `HTML Element`                                          | A component to mount the modals in, defaults to body            |
+| `adapter`       | `null or "nextjs"`                                      | If set to NextJS it will use next router instead of history API |
 
 #### openModal
 

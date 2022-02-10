@@ -1,5 +1,5 @@
 {
-  "version": "0.2.1",
+  "version": "0.3.0",
   "license": "MIT",
   "main": "dist/react-url-modal.cjs.js",
   "module": "dist/react-url-modal.esm.js",
@@ -55,11 +55,18 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@reach/dialog": "^0.16.2"
+    "@reach/dialog": "^0.16.2",
+    "zustand": "^3.6.9"
   },
   "peerDependencies": {
+    "next": "^12.0.10",
     "react": ">=16",
     "react-dom": ">=16"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
   },
   "husky": {
     "hooks": {
@@ -83,11 +90,11 @@
   "size-limit": [
     {
       "path": "dist/react-url-modal.cjs.js",
-      "limit": "1.5 KB"
+      "limit": "2.82 KB"
     },
     {
       "path": "dist/react-url-modal.esm.js",
-      "limit": "1.6 KB"
+      "limit": "2.77 KB"
     },
     {
       "path": "dist/Modal/index.js",

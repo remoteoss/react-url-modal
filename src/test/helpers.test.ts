@@ -116,16 +116,16 @@ describe('test openModal', () => {
     global.window.location = realLocation;
     closeModal();
   });
-  it('should open modal by adding the modal param', () => {
-    openModal({
+  it('should open modal by adding the modal param', async () => {
+    await openModal({
       name: 'ModalName',
     });
     expect(new URLSearchParams(window.location.search).get(MODAL_KEY)).toBe(
       'ModalName'
     );
   });
-  it('should also append any params passed', () => {
-    openModal({
+  it('should also append any params passed', async () => {
+    await openModal({
       name: 'ModalName',
       params: {
         hello: 'world',
