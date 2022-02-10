@@ -16,7 +16,7 @@ A React library to help you keep track of your modal state using the URL.
 
 [Documentation](https://react-url-modal.vercel.app)
 
-To create a new instance of modals you can import the `URLModal` and pass the modals you have in your application:
+To create a new instance of modals, import the `URLModal` and pass the modals you have in your application:
 
 ```jsx
 import { URLModal } from 'react-url-modal';
@@ -32,7 +32,7 @@ export const App = () => (
 );
 ```
 
-To open this modal from any button in your application you can use the `openModal` function and pass the name of the modals and any params this modal needs:
+To open this modal from any button in your application, use the `openModal` function and pass the name of the modals and any params this modal needs:
 
 ```jsx
 import { openModal } from 'react-url-modal';
@@ -48,10 +48,10 @@ import { openModal } from 'react-url-modal';
   }
 >
   Edit your profile
-</button>;
+</button>
 ```
 
-Then in your modal you will have access to any param you passed to the modal:
+Then, in your modal you will have access to any param you passed to it:
 
 ```jsx
 const ModalWithParams = ({
@@ -68,7 +68,7 @@ const ModalWithParams = ({
 );
 ```
 
-You can also pass a `Wrapper` to the `<URLModal>` component and that component and that will wrap all your modals and will have access to the `onClose` function:
+You can also pass a `Wrapper` to the `<URLModal>` component which will wrap all your modals and will have access to the `onClose` function:
 
 ```jsx
 <URLModal
@@ -78,7 +78,7 @@ You can also pass a `Wrapper` to the `<URLModal>` component and that component a
   Wrapper={({ onClose, children }) => (
     <>
       {children}
-      <button onClick={onClose} type="button">
+      <button onClick={onClose} type="button" aria-label="Close modal">
         x
       </button>
     </>
@@ -86,7 +86,7 @@ You can also pass a `Wrapper` to the `<URLModal>` component and that component a
 />
 ```
 
-To see all the available props you can check the API reference below.
+To see all the available props, please check the API reference below.
 
 ## API Reference
 
@@ -130,7 +130,7 @@ openModal({
 Close all open modals.
 
 ```js
-openModal();
+closeModal();
 ```
 
 #### isModalOpen
