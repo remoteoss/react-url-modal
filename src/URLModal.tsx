@@ -8,7 +8,7 @@ import React, {
   ElementType,
 } from 'react';
 import { MODAL_KEY, PARAMS_KEY } from './constants';
-import { closeModal, decodedUrlParams } from './helpers';
+import { closeModal, decodedUrlParams, store, adapters } from './helpers';
 import { useCustomEvent } from './hooks/useCustomEvent';
 import { Portal } from './Portal';
 
@@ -24,6 +24,7 @@ export interface ModalWrapperProps {
   Wrapper?: ElementType;
   usePortal?: boolean;
   portalElement?: HTMLElement | null;
+  adapter?: adapters;
 }
 
 export const URLModal = ({
@@ -31,9 +32,14 @@ export const URLModal = ({
   Wrapper,
   usePortal,
   portalElement,
+  adapter,
 }: ModalWrapperProps) => {
+  store.setState({ adapter: adapter || null });
   const [extraProps, setExtraProps] = useState({});
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : { get: () => null };
   const [modalName, setModalName] = useState<string | null>(
     urlParams.get(MODAL_KEY)
   );
@@ -50,7 +56,9 @@ export const URLModal = ({
     if (modalQuery && modals[modalQuery]) {
       setModalName(modalQuery);
     }
-  }, [modals]);
+    // run this when location search changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modals, typeof window !== 'undefined' ? window.location.search : {}]);
   const modalTriggerListener = useCallback(
     (event: CustomEvent) => {
       const { modalName, props } = event.detail || {};

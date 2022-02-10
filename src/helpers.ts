@@ -1,9 +1,16 @@
 import { MODAL_KEY, PARAMS_KEY } from './constants';
+import create, { StoreApi } from 'zustand/vanilla';
 
 export type openModalProps = {
   name: string;
   params?: Record<string, unknown>;
 };
+
+export type adapters = null | 'nextjs';
+
+export const store: StoreApi<{
+  adapter: adapters;
+}> = create<{ adapter: adapters }>(() => ({ adapter: null }));
 
 export const createURL = (urlParams: URLSearchParams) => {
   const {
@@ -13,19 +20,29 @@ export const createURL = (urlParams: URLSearchParams) => {
   return `${protocol}//${host}${pathname}${search.length ? '?' : ''}${search}`;
 };
 
-const triggerPopState = () => {
-  const popStateEvent = new PopStateEvent('popstate', { state: null });
-  dispatchEvent(popStateEvent);
+const nextPush = async (href: string) => {
+  try {
+    const Router = await (await import('next/router')).default;
+    Router.push(href, undefined, { shallow: true });
+  } catch {
+    // we don't wanna do anything if we can't push
+  }
 };
 
-const routerPush = (href: string) => {
-  window.history.pushState({ path: href }, '', href);
-  triggerPopState();
+const routerPush = async (href: string) => {
+  if (store.getState().adapter === 'nextjs') {
+    await nextPush(href);
+  } else {
+    window.history.pushState({ path: href }, '', href);
+  }
 };
 
-const routerReplace = (href: string) => {
-  window.history.replaceState({ path: href }, '', href);
-  triggerPopState();
+const routerReplace = async (href: string) => {
+  if (store.getState().adapter === 'nextjs') {
+    await nextPush(href);
+  } else {
+    window.history.replaceState({ path: href }, '', href);
+  }
 };
 export const cleanSearchParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -53,14 +70,14 @@ export const isModalOpen = (name: string): boolean => {
   return modalName === name;
 };
 
-export const openModal = ({ name, params, ...props }: openModalProps) => {
-  routerReplace(cleanSearchParams());
+export const openModal = async ({ name, params, ...props }: openModalProps) => {
+  await routerReplace(cleanSearchParams());
   const urlParams = new URLSearchParams(window.location.search);
 
   urlParams.set(MODAL_KEY, name);
   if (params) urlParams.set(PARAMS_KEY, encodeUrlParams(params));
 
-  routerPush(createURL(urlParams));
+  await routerPush(createURL(urlParams));
 
   const event = new CustomEvent('modal-trigger', {
     detail: {
@@ -74,11 +91,11 @@ export const openModal = ({ name, params, ...props }: openModalProps) => {
   window.dispatchEvent(event);
 };
 
-export const closeModal = () => {
+export const closeModal = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const modalName = urlParams.get(MODAL_KEY);
 
-  routerPush(cleanSearchParams());
+  await routerPush(cleanSearchParams());
   window.dispatchEvent(new Event('modal-trigger'));
   window.dispatchEvent(new Event(`${modalName}-close`));
 };
