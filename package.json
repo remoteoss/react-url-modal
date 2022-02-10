@@ -72,6 +72,8 @@
     "SaraVieira",
     "jfranciscosousa"
   ],
+  "homepage": "https://react-url-modal.vercel.app",
+  "repository": "remoteoss/react-url-modal",
   "prettier": {
     "printWidth": 80,
     "semi": true,
