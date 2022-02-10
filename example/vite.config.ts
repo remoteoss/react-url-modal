@@ -16,6 +16,11 @@ export default defineConfig({
       },
     ],
   },
+  build: {
+    rollupOptions: {
+      external: ['next/router'],
+    },
+  },
   server: {
     fs: {
       // Allow serving files from one level up to the project root
