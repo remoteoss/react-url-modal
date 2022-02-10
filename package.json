@@ -63,6 +63,11 @@
     "react": ">=16",
     "react-dom": ">=16"
   },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"

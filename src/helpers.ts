@@ -7,10 +7,11 @@ export type openModalProps = {
 };
 
 export type adapters = null | 'nextjs';
-
-export const store: StoreApi<{
+type state = {
   adapter: adapters;
-}> = create<{ adapter: adapters }>(() => ({ adapter: null }));
+};
+
+export const store: StoreApi<state> = create<state>(() => ({ adapter: null }));
 
 export const createURL = (urlParams: URLSearchParams) => {
   const {
