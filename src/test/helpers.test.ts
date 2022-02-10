@@ -10,8 +10,6 @@ import {
 } from '../helpers';
 const realLocation = window.location;
 
-jest.mock('next/router');
-
 const createFakeWindowLocation = (search: {
   [key: string]: string | Record<string, unknown>;
 }) => {
