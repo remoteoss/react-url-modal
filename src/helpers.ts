@@ -28,7 +28,7 @@ const nextPush = async (href: string) => {
     const Router = await (await import('next/router')).default;
     Router.push(href, undefined, { shallow: true });
   } catch {
-    // we don't wanna do anything if we can't push
+    console.log(`There was an error while trying to push to ${href}`);
   }
 };
 
