@@ -1,5 +1,8 @@
 name: npm
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
