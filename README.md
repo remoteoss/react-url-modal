@@ -189,7 +189,7 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  yarn
+  yarn && yarn add next --peer
 ```
 
 Start the server
