@@ -2,6 +2,7 @@ import {
   dynamicImportedModal,
   standardModalCode,
   usePortals,
+  useReplace,
   withCustomWrapper,
   withModal,
   withParams,
@@ -10,6 +11,7 @@ import {
   CustomWrapper,
   DynamicModal,
   PortalExample,
+  ReplaceExample,
   StandardModal,
   WithModal,
   WithParams,
@@ -52,6 +54,11 @@ export const useTabs = () => {
       name: 'Using portals',
       code: usePortals,
       Component: PortalExample,
+    },
+    {
+      name: 'Using replace instead of push',
+      code: useReplace,
+      Component: ReplaceExample,
     },
   ].map((example, i) => ({
     ...example,

@@ -144,7 +144,8 @@ export const App = () => (
       modals={{
         portalModal: PortalModal,
       }}
-      usePortals
+      usePortal
+      portalElement={document.getElementById('portal')}
     />
     <button
       onClick={() =>
@@ -155,6 +156,28 @@ export const App = () => (
     >
       Open
     </button>
+  </>
+);
+`;
+
+export const useReplace = `
+import { URLModal } from "react-url-modal";
+
+const ReplaceModal = () => <>I use replaceState instead of pushState</>;
+
+export const ReplaceExample = () => (
+  <>
+    <URLModal
+      modals={{
+        replaceModal: ReplaceModal,
+      }}
+      replace
+    />
+    <OpenButton
+      params={{
+        name: 'replaceModal',
+      }}
+    />
   </>
 );
 `;

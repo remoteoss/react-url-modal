@@ -133,3 +133,21 @@ export const PortalExample = () => (
     />
   </>
 );
+
+const ReplaceModal = () => <>I use replaceState instead of pushState</>;
+
+export const ReplaceExample = () => (
+  <>
+    <URLModal
+      modals={{
+        replaceModal: ReplaceModal,
+      }}
+      replace
+    />
+    <OpenButton
+      params={{
+        name: 'replaceModal',
+      }}
+    />
+  </>
+);

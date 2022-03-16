@@ -46,12 +46,24 @@ const nextRouterAction = async ({
   }
 };
 
+const vanillaRouterAction = ({
+  href,
+  replace,
+}: {
+  href: string;
+  replace?: boolean;
+}) => {
+  if (replace) window.history.replaceState({ path: href }, '', href);
+  else window.history.pushState({ path: href }, '', href);
+};
+
 const routerPush = async (href: string) => {
   const { adapter, replace } = store.getState();
+
   if (adapter === 'nextjs') {
     await nextRouterAction({ href, replace });
   } else {
-    window.history.pushState({ path: href }, '', href);
+    vanillaRouterAction({ href, replace });
   }
 };
 
