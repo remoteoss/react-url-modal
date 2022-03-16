@@ -25,6 +25,7 @@ export interface ModalWrapperProps {
   usePortal?: boolean;
   portalElement?: HTMLElement | null;
   adapter?: adapters;
+  replace?: boolean;
 }
 
 export const URLModal = ({
@@ -33,8 +34,9 @@ export const URLModal = ({
   usePortal,
   portalElement,
   adapter,
+  replace,
 }: ModalWrapperProps) => {
-  store.setState({ adapter: adapter || null });
+  store.setState({ adapter: adapter || null, replace });
   const [extraProps, setExtraProps] = useState({});
   const urlParams =
     typeof window !== 'undefined'

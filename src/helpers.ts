@@ -9,9 +9,13 @@ export type openModalProps = {
 export type adapters = null | 'nextjs';
 type state = {
   adapter: adapters;
+  replace?: boolean;
 };
 
-export const store: StoreApi<state> = create<state>(() => ({ adapter: null }));
+export const store: StoreApi<state> = create<state>(() => ({
+  adapter: null,
+  replace: false,
+}));
 
 export const createURL = (urlParams: URLSearchParams) => {
   const {
@@ -42,11 +46,24 @@ const nextRouterAction = async ({
   }
 };
 
+const vanillaRouterAction = ({
+  href,
+  replace,
+}: {
+  href: string;
+  replace?: boolean;
+}) => {
+  if (replace) window.history.replaceState({ path: href }, '', href);
+  else window.history.pushState({ path: href }, '', href);
+};
+
 const routerPush = async (href: string) => {
-  if (store.getState().adapter === 'nextjs') {
-    await nextRouterAction({ href });
+  const { adapter, replace } = store.getState();
+
+  if (adapter === 'nextjs') {
+    await nextRouterAction({ href, replace });
   } else {
-    window.history.pushState({ path: href }, '', href);
+    vanillaRouterAction({ href, replace });
   }
 };
 

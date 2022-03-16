@@ -16,6 +16,9 @@ export default defineConfig({
       },
     ],
   },
+  optimizeDeps: {
+    exclude: ['next/router'],
+  },
   build: {
     rollupOptions: {
       external: ['next/router'],

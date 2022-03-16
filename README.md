@@ -48,7 +48,7 @@ import { openModal } from 'react-url-modal';
   }
 >
   Edit your profile
-</button>
+</button>;
 ```
 
 If you want to use a link to open the modals that's also possible taking advantage of the `encodeUrlParams` and creating a link:
@@ -56,7 +56,6 @@ If you want to use a link to open the modals that's also possible taking advanta
 ```
 <a href=`/account?modal=editAccount&params=${encodeUrlParams({ id: user.id })}`>Edit account</a>
 ```
-
 
 Then, in your modal you will have access to any param you passed to it:
 
