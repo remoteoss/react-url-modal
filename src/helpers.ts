@@ -67,31 +67,24 @@ const routerPush = async (href: string) => {
   }
 };
 
-const routerReplace = async (href: string) => {
-  if (store.getState().adapter === 'nextjs') {
-    await nextRouterAction({ href, replace: true });
-  } else {
-    window.history.replaceState({ path: href }, '', href);
-  }
-};
 export const cleanSearchParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
 
   if (urlParams.get(PARAMS_KEY)) urlParams.delete(PARAMS_KEY);
   if (urlParams.get(MODAL_KEY)) urlParams.delete(MODAL_KEY);
 
-  return createURL(urlParams);
+  return urlParams;
 };
 
 export const encodeUrlParams = (
   obj: URLSearchParams | Record<string, unknown>
 ): string => window.btoa(encodeURI(JSON.stringify(obj)));
 
-export const decodedUrlParams = () => {
-  const params = new URLSearchParams(window.location.search).get(PARAMS_KEY);
-  if (params) {
-    return JSON.parse(decodeURI(window.atob(params)));
+export const decodedUrlParams = (encodedParams: string | undefined | null) => {
+  if (encodedParams) {
+    return JSON.parse(decodeURI(window.atob(encodedParams)));
   }
+
   return {};
 };
 
@@ -101,12 +94,11 @@ export const isModalOpen = (name: string): boolean => {
 };
 
 export const openModal = async ({ name, params, ...props }: openModalProps) => {
-  await routerReplace(cleanSearchParams());
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(cleanSearchParams());
 
   urlParams.set(MODAL_KEY, name);
   if (params) urlParams.set(PARAMS_KEY, encodeUrlParams(params));
-
+  console.log('urlpush', urlParams.toString());
   await routerPush(createURL(urlParams));
 
   const event = new CustomEvent('modal-trigger', {
@@ -125,7 +117,7 @@ export const closeModal = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const modalName = urlParams.get(MODAL_KEY);
 
-  await routerPush(cleanSearchParams());
+  await routerPush(createURL(cleanSearchParams()));
   window.dispatchEvent(new Event('modal-trigger'));
   window.dispatchEvent(new Event(`${modalName}-close`));
 };

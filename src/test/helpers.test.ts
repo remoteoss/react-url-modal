@@ -71,23 +71,14 @@ describe('test encodeUrlParams', () => {
 });
 
 describe('test decodedUrlParams', () => {
-  beforeEach(() => {
-    createFakeWindowLocation({
-      params: 'JTdCJTIyc2VhcmNoJTIyOiUyMnRlc3QlMjIlN0Q',
-    });
-  });
-
-  afterEach(() => {
-    global.window.location = realLocation;
-  });
-
   it('should decode when its URLSearchParams', () => {
-    createFakeWindowLocation({});
-    expect(decodedUrlParams()).toEqual({});
+    expect(decodedUrlParams('')).toEqual({});
   });
 
   it('should return an empty object when nothing is passed', () => {
-    expect(decodedUrlParams()).toEqual({ search: 'test' });
+    expect(decodedUrlParams('JTdCJTIyc2VhcmNoJTIyOiUyMnRlc3QlMjIlN0Q')).toEqual(
+      { search: 'test' }
+    );
   });
 });
 
