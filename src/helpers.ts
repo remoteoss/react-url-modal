@@ -98,7 +98,7 @@ export const openModal = async ({ name, params, ...props }: openModalProps) => {
 
   urlParams.set(MODAL_KEY, name);
   if (params) urlParams.set(PARAMS_KEY, encodeUrlParams(params));
-  console.log('urlpush', urlParams.toString());
+
   await routerPush(createURL(urlParams));
 
   const event = new CustomEvent('modal-trigger', {

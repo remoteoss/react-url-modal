@@ -119,8 +119,6 @@ export const URLModal = ({
       }
     : {};
 
-  console.log(modalState);
-
   return (
     <RootEl {...rootElProps}>
       <WrapperEl {...wrapperProps}>
