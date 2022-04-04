@@ -80,11 +80,11 @@ export const encodeUrlParams = (
   obj: URLSearchParams | Record<string, unknown>
 ): string => window.btoa(encodeURI(JSON.stringify(obj)));
 
-export const decodedUrlParams = (encodedParams: string | undefined | null) => {
-  if (encodedParams) {
-    return JSON.parse(decodeURI(window.atob(encodedParams)));
+export const decodedUrlParams = () => {
+  const params = new URLSearchParams(window.location.search).get(PARAMS_KEY);
+  if (params) {
+    return JSON.parse(decodeURI(window.atob(params)));
   }
-
   return {};
 };
 
@@ -94,7 +94,7 @@ export const isModalOpen = (name: string): boolean => {
 };
 
 export const openModal = async ({ name, params, ...props }: openModalProps) => {
-  const urlParams = new URLSearchParams(cleanSearchParams());
+  const urlParams = cleanSearchParams();
 
   urlParams.set(MODAL_KEY, name);
   if (params) urlParams.set(PARAMS_KEY, encodeUrlParams(params));
