@@ -71,14 +71,16 @@ describe('test encodeUrlParams', () => {
 });
 
 describe('test decodedUrlParams', () => {
-  it('should decode when its URLSearchParams', () => {
-    expect(decodedUrlParams('')).toEqual({});
+  it('should decode the "params" query param from the URL', () => {
+    createFakeWindowLocation({
+      params: 'JTdCJTIyc2VhcmNoJTIyOiUyMnRlc3QlMjIlN0Q',
+    });
+    expect(decodedUrlParams()).toEqual({ search: 'test' });
   });
 
-  it('should return an empty object when nothing is passed', () => {
-    expect(decodedUrlParams('JTdCJTIyc2VhcmNoJTIyOiUyMnRlc3QlMjIlN0Q')).toEqual(
-      { search: 'test' }
-    );
+  it('should return an empty object when there is no "params" query param in the URL', () => {
+    createFakeWindowLocation({});
+    expect(decodedUrlParams()).toEqual({});
   });
 });
 

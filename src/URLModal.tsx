@@ -7,7 +7,7 @@ import React, {
   LazyExoticComponent,
   ElementType,
 } from 'react';
-import { MODAL_KEY, PARAMS_KEY } from './constants';
+import { MODAL_KEY } from './constants';
 import { closeModal, decodedUrlParams, store, adapters } from './helpers';
 import { useCustomEvent } from './hooks/useCustomEvent';
 import { Portal } from './Portal';
@@ -40,13 +40,12 @@ function urlIntoModalState(): ModalState {
       ? new URLSearchParams(window.location.search)
       : { get: () => null };
   const modalName = urlParams.get(MODAL_KEY);
-  const encodedParams = urlParams.get(PARAMS_KEY);
 
   if (!modalName) return { name: null, extraProps: {}, params: {} };
 
   return {
     name: modalName,
-    params: decodedUrlParams(encodedParams),
+    params: decodedUrlParams(),
     extraProps: {},
   };
 }
