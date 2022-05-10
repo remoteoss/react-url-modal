@@ -66,7 +66,7 @@ describe('test encodeUrlParams', () => {
       encodeUrlParams({
         search: 'test',
       })
-    ).toBe('JTdCJTIyc2VhcmNoJTIyOiUyMnRlc3QlMjIlN0Q=');
+    ).toBe('JTdCJTIyc2VhcmNoJTIyJTNBJTIydGVzdCUyMiU3RA==');
   });
 });
 
@@ -80,6 +80,14 @@ describe('test decodedUrlParams', () => {
 
   it('should return an empty object when there is no "params" query param in the URL', () => {
     createFakeWindowLocation({});
+    expect(decodedUrlParams()).toEqual({});
+  });
+
+  it('should return an empty object when decoding invalid URLSearchParams', () => {
+    createFakeWindowLocation({
+      params:
+        'JTdCJTIyY29tcGFueUNvdW50cnklMjI6JTdCJTIyY29kZSUyAjolMjJVU0ElMjIlN0Q=',
+    });
     expect(decodedUrlParams()).toEqual({});
   });
 });
@@ -128,7 +136,7 @@ describe('test openModal', () => {
       'ModalName'
     );
     expect(new URLSearchParams(window.location.search).get(PARAMS_KEY)).toBe(
-      'JTdCJTIyaGVsbG8lMjI6JTIyd29ybGQlMjIlN0Q='
+      'JTdCJTIyaGVsbG8lMjIlM0ElMjJ3b3JsZCUyMiU3RA=='
     );
   });
 });

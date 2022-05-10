@@ -78,12 +78,16 @@ export const cleanSearchParams = () => {
 
 export const encodeUrlParams = (
   obj: URLSearchParams | Record<string, unknown>
-): string => window.btoa(encodeURI(JSON.stringify(obj)));
+): string => window.btoa(encodeURIComponent(JSON.stringify(obj)));
 
 export const decodedUrlParams = () => {
   const params = new URLSearchParams(window.location.search).get(PARAMS_KEY);
   if (params) {
-    return JSON.parse(decodeURI(window.atob(params)));
+    try {
+      return JSON.parse(decodeURIComponent(window.atob(params)));
+    } catch {
+      return {};
+    }
   }
   return {};
 };
