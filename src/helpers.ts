@@ -1,5 +1,5 @@
 import { MODAL_KEY, PARAMS_KEY } from './constants';
-import create, { StoreApi } from 'zustand/vanilla';
+import { createStore, StoreApi } from 'zustand/vanilla';
 
 export type openModalProps = {
   name: string;
@@ -12,7 +12,7 @@ type state = {
   replace?: boolean;
 };
 
-export const store: StoreApi<state> = create<state>(() => ({
+export const store: StoreApi<state> = createStore<state>(() => ({
   adapter: null,
   replace: false,
 }));
