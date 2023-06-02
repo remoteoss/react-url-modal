@@ -91,10 +91,6 @@ describe('test decodedUrlParams', () => {
 });
 
 describe('test isModalOpen', () => {
-  afterEach(() => {
-    //global.window.location = realLocation;
-  });
-
   it('should return true when modal is open', () => {
     createFakeWindowLocation({
       modal: 'ModalName',
