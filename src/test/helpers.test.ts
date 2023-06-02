@@ -8,18 +8,16 @@ import {
   isModalOpen,
   openModal,
 } from '../helpers';
-const realLocation = window.location;
 
-const createFakeWindowLocation = (search: {
-  [key: string]: string | Record<string, unknown>;
-}) => {
-  global.window = Object.create(window);
+const createFakeWindowLocation = (search: string | Record<string, string>) => {
+  const url = new URL('https://localhost');
 
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: {
-      search: search,
-    },
+  url.search = new URLSearchParams(search).toString();
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  jsdom.reconfigure({
+    url: url.toString(),
   });
 };
 
@@ -93,10 +91,6 @@ describe('test decodedUrlParams', () => {
 });
 
 describe('test isModalOpen', () => {
-  afterEach(() => {
-    global.window.location = realLocation;
-  });
-
   it('should return true when modal is open', () => {
     createFakeWindowLocation({
       modal: 'ModalName',
@@ -114,9 +108,10 @@ describe('test isModalOpen', () => {
 
 describe('test openModal', () => {
   afterEach(() => {
-    global.window.location = realLocation;
+    createFakeWindowLocation({});
     closeModal();
   });
+
   it('should open modal by adding the modal param', async () => {
     await openModal({
       name: 'ModalName',
@@ -143,8 +138,9 @@ describe('test openModal', () => {
 
 describe('test closeModal', () => {
   beforeEach(() => {
-    global.window.location = realLocation;
+    createFakeWindowLocation({});
   });
+
   it('should close a modal', async () => {
     const search = new URLSearchParams(global.window.location.search);
     createFakeWindowLocation({
@@ -158,9 +154,9 @@ describe('test closeModal', () => {
     const search = new URLSearchParams(global.window.location.search);
     createFakeWindowLocation({
       modal: 'ModalName',
-      params: {
+      params: JSON.stringify({
         hello: 'world',
-      },
+      }),
     });
     closeModal();
     expect(search.get(MODAL_KEY)).toBeNull();
@@ -170,8 +166,9 @@ describe('test closeModal', () => {
 
 describe('test cleanSearchParams', () => {
   beforeEach(() => {
-    global.window.location = realLocation;
+    createFakeWindowLocation({});
   });
+
   it('should clear modal param', async () => {
     const search = new URLSearchParams(global.window.location.search);
     createFakeWindowLocation({
@@ -181,13 +178,14 @@ describe('test cleanSearchParams', () => {
     cleanSearchParams();
     expect(search.get(MODAL_KEY)).toBeNull();
   });
+
   it('should also delete any params passed', () => {
     const search = new URLSearchParams(global.window.location.search);
     createFakeWindowLocation({
       modal: 'ModalName',
-      params: {
+      params: JSON.stringify({
         hello: 'world',
-      },
+      }),
     });
     cleanSearchParams();
     expect(search.get(MODAL_KEY)).toBeNull();

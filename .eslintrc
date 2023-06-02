@@ -8,13 +8,8 @@
   },
   "settings": {
     "react": {
-      "version": "latest"
-    },
-    "formComponents": ["Form"],
-    "linkComponents": [
-      { "name": "Link", "linkAttribute": "to" },
-      { "name": "NavLink", "linkAttribute": "to" }
-    ]
+      "version": "17"
+    }
   },
   "plugins": [
     "prettier",

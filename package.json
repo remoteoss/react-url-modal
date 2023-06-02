@@ -18,48 +18,51 @@
     "size": "size-limit",
     "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\"",
     "build": "rollup -c",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "deploy": "yarn add next --peer; yarn build; cd ./example; yarn; yarn build"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@rollup/plugin-typescript": "^8.3.0",
-    "@size-limit/preset-small-lib": "^7.0.5",
-    "@types/jest": "^27.4.0",
+    "@size-limit/preset-small-lib": "^8.2.4",
+    "@types/jest": "^29.5.2",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
-    "@typescript-eslint/parser": "^5.10.1",
-    "eslint": "^8.7.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-testing-library": "^5.0.4",
-    "husky": "^7.0.4",
-    "jest": "^27.4.7",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-testing-library": "^5.11.0",
+    "husky": "^8.0.3",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-environment-jsdom-global": "^4.0.0",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.5",
-    "prettier": "^2.5.1",
+    "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
     "rollup": "^2.66.1",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-dts": "^4.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
-    "size-limit": "^7.0.5",
-    "ts-jest": "^27.1.3",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.5"
+    "size-limit": "^8.2.4",
+    "ts-jest": "^29.1.0",
+    "tslib": "^2.5.2",
+    "typescript": "^5.1.3"
   },
   "dependencies": {
     "@reach/dialog": "^0.16.2",
-    "zustand": "^3.6.9"
+    "zustand": "^4.3.8"
   },
   "peerDependencies": {
-    "next": "^12.1.6",
+    "next": "^13.4.4",
     "react": ">=16",
     "react-dom": ">=16"
   },
@@ -90,15 +93,15 @@
   "size-limit": [
     {
       "path": "dist/react-url-modal.cjs.js",
-      "limit": "2.87 KB"
+      "limit": "3 KB"
     },
     {
       "path": "dist/react-url-modal.esm.js",
-      "limit": "2.81 KB"
+      "limit": "3 KB"
     },
     {
       "path": "dist/Modal/index.js",
-      "limit": "12.4 KB"
+      "limit": "12.5 KB"
     }
   ]
 }
