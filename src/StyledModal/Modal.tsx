@@ -1,5 +1,5 @@
 import React from 'react';
-import { DialogContent, DialogOverlay } from '@reach/dialog';
+import { Content, Overlay, Root, Close } from '@radix-ui/react-dialog';
 import './styles/index.css';
 import { CloseIcon } from '../icons/Close';
 export const Modal = ({
@@ -9,24 +9,30 @@ export const Modal = ({
   children: React.ReactNode;
   onClose?: () => void;
 }) => (
-  <DialogOverlay isOpen onDismiss={onClose}>
-    <div data-reach-dialog-area>
-      <DialogContent
-        data-reach-dialog-content
-        {...{ 'aria-label': 'Dialog area' }}
-      >
-        <div data-reach-dialog-header>
-          <button
-            type="button"
-            aria-label="Close Modal"
-            onClick={onClose}
-            data-reach-dialog-button-close
-          >
-            <CloseIcon width="14" />
-          </button>
-        </div>
-        <div data-reach-dialog-body>{children}</div>
-      </DialogContent>
-    </div>
-  </DialogOverlay>
+  <Root open>
+    <Overlay className="DialogOverlay">
+      <div className="DialogArea">
+        <Content
+          className="DialogContent"
+          aria-label="Dialog area"
+          onEscapeKeyDown={onClose}
+          onPointerDownOutside={onClose}
+        >
+          <div className="DialogHeader">
+            <Close asChild>
+              <button
+                type="button"
+                aria-label="Close Modal"
+                onClick={onClose}
+                className="DialogButtonClose"
+              >
+                <CloseIcon width="14" />
+              </button>
+            </Close>
+          </div>
+          <div className="DialogBody">{children}</div>
+        </Content>
+      </div>
+    </Overlay>
+  </Root>
 );

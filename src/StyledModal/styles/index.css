@@ -1,8 +1,4 @@
-:root {
-  --reach-dialog: 1;
-}
-
-[data-reach-dialog-overlay] {
+.DialogOverlay {
   position: fixed;
   left: 0;
   top: 0;
@@ -14,7 +10,7 @@
   z-index: 999999;
 }
 
-[data-reach-dialog-area] {
+.DialogArea {
   position: relative;
   width: auto;
   max-width: 620px;
@@ -25,12 +21,12 @@
   justify-content: center;
 }
 
-[data-reach-dialog-content] {
+.DialogContent {
   outline: 0;
   position: relative;
   display: flex;
   flex-direction: column;
-  color: var(--colors-bayoux);
+  color:#525f7f;
   box-shadow: 0 12px 48px rgba(96, 101, 123, 0.24);
   --modalRadius: 10px;
   border-radius: var(--modalRadius);
@@ -43,7 +39,7 @@
   position: relative;
 }
 
-[data-reach-dialog-header] {
+.DialogHeader {
   position: absolute;
   background-color: #fff;
   right: 10px;
@@ -51,7 +47,7 @@
   z-index: 9999;
 }
 
-[data-reach-dialog-button-close] {
+.DialogButtonClose {
   color: #525f7f;
   background: transparent;
   border: none;
@@ -60,7 +56,7 @@
   cursor: pointer;
 }
 
-[data-reach-dialog-body] {
+.DialogBody {
   --modal-body-spacing-x: 58px;
   --modal-body-spacing-y: 48px;
   position: relative;
@@ -75,6 +71,6 @@
   --dynamicFormContainerMargin: 0;
 }
 
-[data-reach-dialog-body]:last-child {
+.DialogBody:last-child {
   border-radius: var(--modalRadius);
 }
