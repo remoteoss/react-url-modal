@@ -5,7 +5,7 @@ import { terser } from 'rollup-plugin-terser';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import dts from 'rollup-plugin-dts';
-import packageJson from './package.json';
+import packageJson from './package.json' assert { type: 'json' };
 import bundleSize from 'rollup-plugin-bundle-size';
 
 const commonPlugins = [

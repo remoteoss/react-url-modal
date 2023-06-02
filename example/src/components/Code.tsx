@@ -1,5 +1,4 @@
-import Highlight, { defaultProps } from 'prism-react-renderer';
-import theme from 'prism-react-renderer/themes/nightOwl';
+import { Highlight, themes } from 'prism-react-renderer';
 import clipboardCopy from 'clipboard-copy';
 import { CopyIcon } from './Icons';
 
@@ -13,7 +12,7 @@ export const Code = ({ code }: { code: string }) => (
     >
       <CopyIcon />
     </button>
-    <Highlight {...defaultProps} code={code} theme={theme} language="jsx">
+    <Highlight code={code} theme={themes.nightOwl} language="jsx">
       {({ className, tokens, getLineProps, getTokenProps }) => (
         <pre className={`${className} p-4 text-sm`}>
           {tokens.map((line, i) => (
