@@ -79,6 +79,7 @@ export const URLModal = ({
         setModalState({
           name: modalName,
           extraProps: props,
+          // eslint-disable-next-line react/prop-types
           params: props.params,
         });
       }
