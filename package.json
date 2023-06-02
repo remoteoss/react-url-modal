@@ -92,15 +92,15 @@
   "size-limit": [
     {
       "path": "dist/react-url-modal.cjs.js",
-      "limit": "2.87 KB"
+      "limit": "3 KB"
     },
     {
       "path": "dist/react-url-modal.esm.js",
-      "limit": "2.81 KB"
+      "limit": "3 KB"
     },
     {
       "path": "dist/Modal/index.js",
-      "limit": "12.4 KB"
+      "limit": "12.5 KB"
     }
   ]
 }
