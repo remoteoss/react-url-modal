@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "main": "dist/react-url-modal.cjs.js",
   "module": "dist/react-url-modal.esm.js",
@@ -62,7 +62,7 @@
     "zustand": "^4.3.8"
   },
   "peerDependencies": {
-    "next": "^13.4.4",
+    "next": ">=12",
     "react": ">=16",
     "react-dom": ">=16"
   },
