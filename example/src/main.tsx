@@ -36,19 +36,19 @@ const App = () => {
 
   return (
     <div className="sm:grid sm:grid-cols-[30vw_1fr] gap-6 min-h-screen sm:max-w-full max-w-[80%] m-auto">
-      <div className="flex items-center justify-center flex-col sm:mb-0 mb-6 py-6 sm:py-0">
-        <h1 className="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
+      <div className="sm:p-12 p-6 sm:pr-0 flex items-center justify-center flex-col">
+        <h1 className="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center sm:text-left w-full whitespace-pre-wrap break-words">
           React
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">
             URLModal
           </span>
         </h1>
-        <p className="leading-normal text-base md:text-2xl text-gray-900 mb-8 text-center md:text-left">
+        <p className="leading-normal text-base md:text-2xl text-gray-900 mb-8 text-center sm:text-left w-full">
           Persistent Modal state with the URL
         </p>
-        <div className=" flex items-center justify-center relative">
-          <div className="block sm:flex items-center">
-            <div className="grid grid-cols-3 sm:flex sm:flex-col text-xs border-0 sm:border-r-2 sm:border-r-indigo-400">
+        <div className=" flex items-center justify-center relative w-full">
+          <div className="flex flex-col items-center w-full">
+            <div className="grid grid-cols-3 text-xs border-0 border-b-2 border-b-indigo-400 w-full">
               <button
                 type="button"
                 className="text-gray-200 py-2 rounded-tl px-3 bg-slate-900 hover:bg-slate-700 grow"
@@ -71,19 +71,17 @@ const App = () => {
                 PNPM
               </button>
             </div>
-            <input
-              className="bg-slate-900 outline-none p-6 sm:rounded-r rounded-b shadow-sm min-w-[350px] h-[96px]"
-              value={getText(packageManager)}
-              readOnly
-            />
+            <div className="flex items-center justify-between gap-4 w-full bg-slate-900 outline-none p-4 sm:rounded-r rounded-b shadow-sm min-h-[96px]">
+              <p>{getText(packageManager)}</p>
+              <button
+                onClick={() => clipboardCopy(getText(packageManager))}
+                className="hover:text-indigo-200 active:text-green-500"
+                type="button"
+              >
+                <CopyIcon />
+              </button>
+            </div>
           </div>
-          <button
-            onClick={() => clipboardCopy(getText(packageManager))}
-            className="right-6 absolute hover:text-indigo-200 active:text-green-500"
-            type="button"
-          >
-            <CopyIcon />
-          </button>
         </div>
         <a
           href="https://github.com/remoteoss/react-url-modal"
@@ -92,7 +90,7 @@ const App = () => {
           Open on <GitHubIcon />
         </a>
       </div>
-      <div className="sm:p-12 p-0 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm text-slate-100 pb-12">
+      <div className="sm:p-12 p-6 sm:static absolute sm:w-auto w-100vw left-0 max-w-full bg-slate-900 max-h-screen overflow-auto sm:text-base text-sm text-slate-100">
         <div>
           <div className="block max-w-screen overflow-auto">
             <nav className="flex" aria-label="Tabs">
