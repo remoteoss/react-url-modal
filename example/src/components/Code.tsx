@@ -8,7 +8,7 @@ export const Code = ({ code }: { code: string }) => (
     <button
       onClick={() => clipboardCopy(code)}
       className="right-6 top-6 absolute
-      text-slate-100 hover:text-indigo-200 active:text-green-500 hidden sm:block"
+      text-slate-100 hover:text-indigo-200 active:text-green-500 hidden md:block"
       type="button"
     >
       <CopyIcon />
