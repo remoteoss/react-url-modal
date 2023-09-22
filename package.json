@@ -19,7 +19,7 @@
     "format": "prettier --loglevel warn --write \"**/*.{ts,tsx,css,md}\"",
     "build": "rollup -c",
     "test:coverage": "jest --coverage",
-    "deploy": "yarn add next --peer; yarn build; cd ./example; yarn; yarn build"
+    "deploy": "yarn add next@13.1 --peer; yarn build; cd ./example; yarn; yarn build"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
@@ -62,7 +62,7 @@
     "zustand": "^4.3.8"
   },
   "peerDependencies": {
-    "next": ">=12",
+    "next": "13.1",
     "react": ">=16",
     "react-dom": ">=16"
   },
