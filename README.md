@@ -93,8 +93,9 @@ You can also pass a `Wrapper` to the `<URLModal>` component which will wrap all 
 ```
 
 By default, this package uses the default `history` API used by browsers. If you want to use a custom router either from `react-router` or `Next.js`, you render the `URLModal` component as follows:
+
 ```tsx
-import Router from "next/router";
+import Router from 'next/router';
 import { URLModal } from 'react-url-modal';
 import { CreateAccount, EditAccount } from './Modals';
 
@@ -104,7 +105,7 @@ const customRouterAction = ({ href, replace }) => {
   } else {
     Router.push(href, undefined, { shallow: true });
   }
-}
+};
 
 export const App = () => (
   <URLModal
@@ -131,13 +132,13 @@ To see all the available props, please check the API reference below.
 />
 ```
 
-| Parameter       | Type                                                    | Description                                                     |
-| :-------------- | :------------------------------------------------------ | :-------------------------------------------------------------- |
-| `modals`        | `[name: string]: React Component or Promise<Component>` | **Required**                                                    |
-| `Wrapper`       | `React Component`                                       | A component to wrap each modal with                             |
-| `usePortal`     | `boolean`                                               | Should this modal be mounted on a portal                        |
-| `portalElement` | `HTML Element`                                          | A component to mount the modals in, defaults to body            |
-| `customRouterAction`       | `(params: { href: string; replace?: boolean; }) => void`                                      | A custom function that can be used to override the default URL behavior. Use this to integrate with routers from Next.js or Remix |
+| Parameter            | Type                                                     | Description                                                                                                                       |
+| :------------------- | :------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| `modals`             | `[name: string]: React Component or Promise<Component>`  | **Required**                                                                                                                      |
+| `Wrapper`            | `React Component`                                        | A component to wrap each modal with                                                                                               |
+| `usePortal`          | `boolean`                                                | Should this modal be mounted on a portal                                                                                          |
+| `portalElement`      | `HTML Element`                                           | A component to mount the modals in, defaults to body                                                                              |
+| `customRouterAction` | `(params: { href: string; replace?: boolean; }) => void` | A custom function that can be used to override the default URL behavior. Use this to integrate with routers from Next.js or Remix |
 
 #### openModal
 
