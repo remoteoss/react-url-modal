@@ -92,6 +92,32 @@ You can also pass a `Wrapper` to the `<URLModal>` component which will wrap all 
 />
 ```
 
+By default, this package uses the default `history` API used by browsers. If you want to use a custom router either from `react-router` or `Next.js`, you render the `URLModal` component as follows:
+
+```tsx
+import Router from 'next/router';
+import { URLModal } from 'react-url-modal';
+import { CreateAccount, EditAccount } from './Modals';
+
+const customRouterAction = ({ href, replace }) => {
+  if (replace) {
+    Router.replace(href, undefined, { shallow: true });
+  } else {
+    Router.push(href, undefined, { shallow: true });
+  }
+};
+
+export const App = () => (
+  <URLModal
+    modals={{
+      createAccount: CreateAccount,
+      editAccount: EditAccount,
+    }}
+    customRouterAction={customRouterAction}
+  />
+);
+```
+
 To see all the available props, please check the API reference below.
 
 ## API Reference
@@ -106,13 +132,13 @@ To see all the available props, please check the API reference below.
 />
 ```
 
-| Parameter       | Type                                                    | Description                                                     |
-| :-------------- | :------------------------------------------------------ | :-------------------------------------------------------------- |
-| `modals`        | `[name: string]: React Component or Promise<Component>` | **Required**                                                    |
-| `Wrapper`       | `React Component`                                       | A component to wrap each modal with                             |
-| `usePortal`     | `boolean`                                               | Should this modal be mounted on a portal                        |
-| `portalElement` | `HTML Element`                                          | A component to mount the modals in, defaults to body            |
-| `adapter`       | `null or "nextjs"`                                      | If set to NextJS it will use next router instead of history API |
+| Parameter            | Type                                                     | Description                                                                                                                       |
+| :------------------- | :------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| `modals`             | `[name: string]: React Component or Promise<Component>`  | **Required**                                                                                                                      |
+| `Wrapper`            | `React Component`                                        | A component to wrap each modal with                                                                                               |
+| `usePortal`          | `boolean`                                                | Should this modal be mounted on a portal                                                                                          |
+| `portalElement`      | `HTML Element`                                           | A component to mount the modals in, defaults to body                                                                              |
+| `customRouterAction` | `(params: { href: string; replace?: boolean; }) => void` | A custom function that can be used to override the default URL behavior. Use this to integrate with routers from Next.js or Remix |
 
 #### openModal
 
@@ -189,7 +215,7 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  yarn && yarn add next --peer
+  yarn
 ```
 
 Start the server

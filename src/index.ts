@@ -6,3 +6,4 @@ export {
   openModal,
   closeModal,
 } from './helpers';
+export type { RouterActionParamsType } from './helpers';

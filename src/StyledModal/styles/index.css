@@ -26,7 +26,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  color:#525f7f;
+  color: #525f7f;
   box-shadow: 0 12px 48px rgba(96, 101, 123, 0.24);
   --modalRadius: 10px;
   border-radius: var(--modalRadius);

@@ -1,19 +1,23 @@
 import { MODAL_KEY, PARAMS_KEY } from './constants';
 import { createStore, StoreApi } from 'zustand/vanilla';
 
-export type openModalProps = {
+export type OpenModalProps = {
   name: string;
   params?: Record<string, unknown>;
 };
 
-export type adapters = null | 'nextjs';
-type state = {
-  adapter: adapters;
+type StateType = {
+  customRouterAction?: ((params: RouterActionParamsType) => void) | null;
   replace?: boolean;
 };
 
-export const store: StoreApi<state> = createStore<state>(() => ({
-  adapter: null,
+export type RouterActionParamsType = {
+  href: string;
+  replace?: boolean;
+};
+
+export const store: StoreApi<StateType> = createStore<StateType>(() => ({
+  customRouterAction: null,
   replace: false,
 }));
 
@@ -23,27 +27,6 @@ export const createURL = (urlParams: URLSearchParams) => {
   } = window;
   const search = urlParams.toString();
   return `${protocol}//${host}${pathname}${search.length ? '?' : ''}${search}`;
-};
-
-const nextRouterAction = async ({
-  href,
-  replace,
-}: {
-  href: string;
-  replace?: boolean;
-}) => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const Router = await (await import('next/router')).default;
-    if (replace) {
-      Router.replace(href, undefined, { shallow: true });
-    } else {
-      Router.push(href, undefined, { shallow: true });
-    }
-  } catch {
-    console.log(`There was an error while trying to push to ${href}`);
-  }
 };
 
 const vanillaRouterAction = ({
@@ -58,13 +41,10 @@ const vanillaRouterAction = ({
 };
 
 const routerPush = async (href: string) => {
-  const { adapter, replace } = store.getState();
+  const { customRouterAction, replace } = store.getState();
 
-  if (adapter === 'nextjs') {
-    await nextRouterAction({ href, replace });
-  } else {
-    vanillaRouterAction({ href, replace });
-  }
+  if (customRouterAction) customRouterAction({ href, replace });
+  else vanillaRouterAction({ href, replace });
 };
 
 export const cleanSearchParams = () => {
@@ -97,7 +77,7 @@ export const isModalOpen = (name: string): boolean => {
   return modalName === name;
 };
 
-export const openModal = async ({ name, params, ...props }: openModalProps) => {
+export const openModal = async ({ name, params, ...props }: OpenModalProps) => {
   const urlParams = cleanSearchParams();
 
   urlParams.set(MODAL_KEY, name);

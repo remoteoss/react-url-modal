@@ -56,12 +56,7 @@ export default [
     plugins: commonPlugins,
   },
   {
-    input: 'dist/types/index.d.ts',
-    output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
-  },
-  {
-    input: 'dist/Modal/types/StyledModal/index.d.ts',
+    input: 'dist/StyledModal/index.d.ts',
     output: [{ file: 'dist/Modal/index.d.ts', format: 'esm' }],
     external: [/\.css$/],
     plugins: [dts()],
