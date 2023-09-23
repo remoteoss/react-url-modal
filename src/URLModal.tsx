@@ -8,7 +8,12 @@ import React, {
   ElementType,
 } from 'react';
 import { MODAL_KEY } from './constants';
-import { closeModal, decodedUrlParams, store, adapters } from './helpers';
+import {
+  RouterActionParamsType,
+  closeModal,
+  decodedUrlParams,
+  store,
+} from './helpers';
 import { useCustomEvent } from './hooks/useCustomEvent';
 import { Portal } from './Portal';
 
@@ -24,7 +29,7 @@ export interface ModalWrapperProps {
   Wrapper?: ElementType;
   usePortal?: boolean;
   portalElement?: HTMLElement | null;
-  adapter?: adapters;
+  customRouterAction?: (params: RouterActionParamsType) => void;
   replace?: boolean;
 }
 
@@ -55,7 +60,7 @@ export const URLModal = ({
   Wrapper,
   usePortal,
   portalElement,
-  adapter,
+  customRouterAction,
   replace,
 }: ModalWrapperProps) => {
   const [modalState, setModalState] = useState<ModalState>(urlIntoModalState());
@@ -90,8 +95,8 @@ export const URLModal = ({
   useCustomEvent('popstate', popStateListener);
 
   useEffect(() => {
-    store.setState({ adapter: adapter || null, replace });
-  }, [adapter, replace]);
+    store.setState({ customRouterAction, replace });
+  }, [customRouterAction, replace]);
 
   useEffect(() => {
     // load modal if a modal is on the url at load
