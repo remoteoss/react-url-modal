@@ -1,8 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { act, render, screen } from '@testing-library/react';
+import React from 'react';
 import { ModalWrapperProps, URLModal } from '../URLModal';
-import { closeModal, openModal } from '../helpers';
+import { openModal } from '../helpers';
+import { createFakeWindowLocation } from './testHelpers';
 
 const StandardModalContent = () => <>Foobar</>;
 
@@ -29,7 +30,7 @@ const StandardModal = (props: Partial<ModalWrapperProps> = {}) => (
 
 describe('UrlModalTest', () => {
   beforeEach(() => {
-    closeModal();
+    createFakeWindowLocation({});
   });
 
   it('renders correctly', async () => {
@@ -38,7 +39,7 @@ describe('UrlModalTest', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.queryByText('Foobar')).not.toBeInTheDocument();
 
-    screen.getByText('Open modal').click();
+    act(() => screen.getByText('Open modal').click());
 
     expect(await screen.findByText('Foobar')).toBeInTheDocument();
   });
@@ -50,10 +51,11 @@ describe('UrlModalTest', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.queryByText('Foobar')).not.toBeInTheDocument();
 
-    screen.getByText('Open modal').click();
+    act(() => screen.getByText('Open modal').click());
 
+    expect(await screen.findByText('Foobar')).toBeInTheDocument();
     expect(mockRouterAction).toBeCalledWith({
-      href: 'http://localhost/?modal=standardModal',
+      href: 'https://localhost/?modal=standardModal',
       replace: undefined,
     });
   });
